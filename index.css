@@ -1,0 +1,63 @@
+body, td, th, li, div {
+	font-family:verdana,arial;
+}
+
+/* styles for geoserver featureinfo */
+table.featureInfo, table.featureInfo td, table.featureInfo th {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    padding: .2em .1em;
+}
+table.featureInfo th {
+    padding: .2em .2em;
+    font-weight: bold;
+    background: #eee;
+}
+table.featureInfo td{
+    background: #fff;
+}
+table.featureInfo tr.odd td{
+    background: #eee;
+}
+table.featureInfo caption{
+    text-align: left;
+    font-size: 100%;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: .2em .2em;
+}
+
+/*makes the header green*/
+*#ext-gen27 {
+	background-color:#D7ED9B;
+}
+
+/*table in information tab */
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:9px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
+
+

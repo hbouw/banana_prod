@@ -1,0 +1,7 @@
+AuthType Basic
+AuthUserFile /geoserver/www/apache/usr/.htpasswd
+AuthName "Enter valid username and password"
+<Files mapper_edit.html>
+require valid-user
+</Files>
+AddHandler server-parsed .html .htm
