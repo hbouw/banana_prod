@@ -117,7 +117,7 @@ Ext.onReady(function() {
                 collapsible: true,
                 collapseMode: "mini",
             	collapsed: false,
-                width: 250,
+                width: 200,
                 defaults: {
                 		width: "100%",
                 		layout: "fit"
@@ -132,9 +132,9 @@ Ext.onReady(function() {
                 	flex: 1	
                 },{
                 	id:"legendpanel",
-                	height:250,
+                	height:450,
 					defaults: {
-					autoScroll:true
+					autoScroll:true,
 					}
                 }]},{
 //Insert a footer						
@@ -187,7 +187,7 @@ Ext.onReady(function() {
            actionTarget: "map.tbar"    //add buttons 'zoom out' and 'zoom in' to the map.tbar
         },{
             ptype: "gxp_legend",
-			//autoActivate: true,
+			autoActivate: true,
             actionTarget: "map.tbar",
 			outputTarget: "legendpanel",
     		menuText: "Overlay Legends"
@@ -200,8 +200,9 @@ Ext.onReady(function() {
            actionTarget: "map.tbar"
         },{  	
 		   ptype: "gxp_wmsgetfeatureinfo",	//add button to get info of feature pointed at
-            actionTarget: "map.tbar", 
-            format: "grid",
+            actionTarget: "map.tbar",
+			//autoActivate: true,			ToDo at startup this function needs to be on!
+			format: "grid",
             outputConfig: {
                 width: 350,
                 height: 180
@@ -333,12 +334,12 @@ Ext.onReady(function() {
             title: "Map",
             projection: "EPSG:900913",
             units: "m",
-            maxExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34], 
+            maxExtent: [-20037508, -20037508, 20037508, 20037508], 
             //	center: [-9264594.758211, 1123072.3184791 ], zoom: 8,           //Costa Rica
             //	center: [3000000, 2000000 ], zoom: 3,							//world
-			center: [2500000, -500000 ], zoom: 4,                             	//center Africa
-			// center: [13000000, 2700000 ], zoom: 8,                           //Taiwan	
-           	//center: [13000000, 2000000 ], zoom: 3,                          	//Indonesia
+			  center: [-800000, -800000 ], zoom: 3,                             	
+			//  center: [13000000, 2700000 ], zoom: 8,                           //Taiwan	
+           	//  center: [13000000, 2000000 ], zoom: 3,                          	//Indonesia
 		   
 		   // specific map-layers from any of the already defined servers that are added to map when loaded	
             layers: [{
@@ -367,17 +368,6 @@ Ext.onReady(function() {
                 queryable: false,
 				opacity: 0.5,
 				visibility: false
-			},{
-			//add production areas variables to view (for lookup and export functionality)
-                source: "bioversity",
-               	name: gs_workspace+":banana_systems", //om PostGIS database new variables
-                title: "Production Systems",
-                projection: "EPSG:4326",
-				tiled:false,
-                queryable: false,
-				opacity: 0.5,
-				visibility: true
-                
 			},{	
 			//add production areas (editable features)
                 source: "bioversity",
@@ -389,6 +379,26 @@ Ext.onReady(function() {
 				opacity: 0.6,
 				visibility: true,
 				select:true
+            },{   
+			//add production areas variables to view (for lookup and export functionality)
+                source: "bioversity",
+               	name: gs_workspace+":banana_systems", //om PostGIS database new variables
+                title: "Production Systems",
+                projection: "EPSG:4326",
+				tiled:false,
+                queryable: false,
+				opacity: 0.5,
+				visibility: true
+            },{
+			//add production areas variables to view (for lookup and export functionality)
+                source: "bioversity",
+               	name: gs_workspace+":System variables", //om PostGIS database new variables
+                title: "System Variables",
+                projection: "EPSG:4326",
+				tiled:false,
+                queryable: false,
+				opacity: 0.5,
+				visibility: true
             },{
 				source: "google",
 				name: "ROADMAP",
