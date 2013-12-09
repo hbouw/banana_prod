@@ -411,7 +411,7 @@ Ext.onReady(function() {
 				group: "background",
 				visibility: false
 			},{
-				Nice background map similar to Google but open source. Cant get it to be printed though, so removed
+			//	Nice background map similar to Google but open source. Cant get it to be printed though, so removed
                 source: "mapquest",
                 name: "osm",
                  title: "Open Street Map",
