@@ -1,5 +1,4 @@
 //This is the Banana Mapper. It is based on viewer.js and was edited from there
-
  
 
 var app,combo,curArea;
@@ -23,7 +22,7 @@ Ext.onReady(function() {
         //this is the page layout 
         portalConfig: {
             id:"MapLayout",
-            layout: "border", //
+            layout: "border",
 			//align: "stretch",
 			//width:  1000,
 		    //height: 800,
@@ -201,7 +200,7 @@ Ext.onReady(function() {
         },{  	
 		   ptype: "gxp_wmsgetfeatureinfo",	//add button to get info of feature pointed at
             actionTarget: "map.tbar",
-			//autoActivate: true,			ToDo at startup this function needs to be on!
+			autoActivate: true,			//ToDo at startup this function needs to be on!
 			format: "grid",
             outputConfig: {
                 width: 350,
@@ -360,15 +359,7 @@ Ext.onReady(function() {
                 args: ["Blank"],
                 visibility: false
 			},{*/
-			    source: "bioversity",
-                name: gs_workspace+":Country boundaries", //from Geoserver
-                title: "Country Boundaries",
-				projection: "EPSG:4326",
-				tiled:false,
-                queryable: false,
-				opacity: 0.5,
-				visibility: false
-			},{	
+			    
 			//add production areas (editable features)
                 source: "bioversity",
                	name: gs_workspace+":banana_areas", //from PostGIS database new variables
@@ -399,7 +390,17 @@ Ext.onReady(function() {
                 queryable: false,
 				opacity: 0.5,
 				visibility: true
-            },{
+			},{
+			    source: "bioversity",
+                name: gs_workspace+":country_boundaries", //from Geoserver
+                title: "Country Boundaries",
+				projection: "EPSG:4326",
+				tiled:false,
+                queryable: false,
+				opacity: 0.5,
+				group: "background",
+				visibility: false
+			},{	
 				source: "google",
 				name: "ROADMAP",
 				group: "background",
@@ -409,13 +410,14 @@ Ext.onReady(function() {
 				name: "SATELLITE",
 				group: "background",
 				visibility: false
-			//},{
-			//	Nice background map similar to Google but open source. Cant get it to be printed though, so removed
-            //    source: "mapquest",
-            //    name: "osm",
-            //     title: "Open Street Map",
-            //    group: "background",
-			//	projection:   "EPSG:900913"
+			},{
+				Nice background map similar to Google but open source. Cant get it to be printed though, so removed
+                source: "mapquest",
+                name: "osm",
+                 title: "Open Street Map",
+                group: "background",
+				projection:   "EPSG:900913"
+					
 			}],
             items: [{
                 xtype: "gx_zoomslider",
