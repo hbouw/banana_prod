@@ -229,6 +229,7 @@ include('config.php');
 					<TR><TD>fus_race4				</TD><TD>Importance Fusarium Race 4</TD></TR>
 					<TR><TD>fus_subtrop4			</TD><TD>Importance Fusarium Subtropical Race 4</TD></TR>
 					<TR><TD>other_fungal			</TD><TD>Name of other fungal diseases</TD></TR>
+					<TR><TD>other_fungal_im			</TD><TD>IOmpact of other fungal diseases</TD></TR>
 					<TR><TD>bbtv					</TD><TD>Importance BBTV</TD></TR>
 					<TR><TD>bsv						</TD><TD>Importance BSV</TD></TR>
 					<TR><TD>other_virus				</TD><TD>Name other viruss</TD></TR>
