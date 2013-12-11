@@ -1,0 +1,20 @@
+.hero-unit {
+        background-image: url('./img/hero_background.jpg');    
+}
+
+.hero-unit h1{
+color:white;
+}
+
+.hero-unit_p {
+background-color: rgba(255,255,255,0.5);
+border-radius: inherit;
+padding: 10px;
+}
+
+#attribution{
+
+font-size:small;
+
+}
+

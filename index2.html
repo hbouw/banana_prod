@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Banana Mapper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="./bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="./bootstrap/style.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+     <script src="./bootstrap/jquery.js"></script>
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		$( "#login" ).bind( "click", function(event, ui) {
+			
+			var _username = $("#username").val();
+			var _password = $("#password").val();
+			var _geoserver = "http://"+window.location.hostname + "/geoserver/j_spring_security_check"			
+		
+					
+			
+			$.ajax({type:"GET",data:"html",url:"http://localhost:8080/geoserver/web", succes: function(data){alert( "Load was performed." )}});
+			
+			$.ajax({type:
+				"POST",data:"html",url:"../geoserver/j_spring_security_check", data:{username: _username, password: _password}, succes: function(){
+				}});
+				
+				
+			$.ajax({type:
+				"POST",data:"json",url:"./Login.php", data:{username: _username, password: _password, url: _geoserver}, success: function(data){
+				var login = JSON.parse(data)
+				if (login["login"] == "true") {
+					window.location = "./index.php";
+				}
+				else {
+					alert("Credentials are not valid.");
+				}
+				
+				}, error: function (data) { alert("error");console.log("error");
+        	}});
+				
+			// Send request to php script on server. Wait for response. If response okay >> Logged in >> forward user to application.
+			
+				
+				
+		});
+	});
+	</script>
+	</script>
+    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">CropMapper.org - Banana</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+                            <li><a href="./index.php">Viewer</a></li>
+                                                        <li><a href="./index.php">Editor</a></li>
+              <!--<li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li><!-->
+                </ul>
+              </li>
+            </ul>
+            <form class="navbar-form pull-right">
+              <input class="span2" type="text" placeholder="Username" id="username">
+              <input class="span2" type="password" placeholder="Password" id="password">
+              <input type="button" class="btn" id="login" value="Sign in"/>
+            </form>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+	<div class="section" >
+    <div class="container">
+<div class="row">
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>CropMapper.org - Banana</h1>
+        <p class="hero-unit_p">The aim of the banana mapper is to collect and to make available spatial information on global banana production systems.</p>
+        <p><a href="./index.php" class="btn btn-primary btn-large">Banana Mapper&raquo;</a></p>
+        <p class="muted" id="attribution"><a href="http://www.flickr.com/photos/exfordy/277554053/in/photostream/">Source</a> and <a href="http://creativecommons.org/licenses/by/2.0/">License</a> image</p>
+        <image 
+      </div>
+      </div>
+      </div>
+     </div>
+     
+  
+                                    
+      <div class="section" >
+    <div class="container">      
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4">
+          <h2>History</h2>
+          <p>The project was initiated at the Banana 2008 international conference in Momabasa, Kenya in 2008. At the conference the International Institute for Tropical Agriculture (IITA) and Bioversity made an effort to define and characterize the spatial extent of main banana and plantain production areas.</p>
+          <p><a class="btn" href="#history">View details &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h2>Procedure</h2>
+          <p>To achieve the aim a worldwide map of the main banana producing areas was made. Each of these areas is associated with one or more production system, defined by the predominant Musa cultivar type and crop association/duration.</p>
+          <p><a class="btn" href="#procedure">View details &raquo;</a></p>
+       </div>
+        <div class="span4">
+          <h2>Mapping System</h2>
+          <p>Two sets of information are shown as maps overlaying base maps stored in a PostGreSQL database which is enhanced with support for geographic objects (PostGIS). The database is published to the internet by a map server (GeoServer)that overlays it on background maps (e.g. Google maps and Open Street Nap).</p>
+          <p><a class="btn" href="#mappingsystem">View details &raquo;</a></p>
+        </div>
+      </div>
+ </div> <!-- /container -->
+ </div>
+	  <div class="row">&nbsp;</div> 
+	  <div class="row">&nbsp;</div> 
+<div id="about">
+<div class="section" id="mappingsystem">
+
+      <div class="container">
+
+        <div class="row">
+          <div class="span6">
+            <img class="img-responsive" src="http://placehold.it/700x450">
+          </div>
+          <div class="span6">
+            <h2>Mapping System</h2>
+            <p class="lead">Two sets of information are shown as maps overlaying base maps stored in a PostGreSQL database which is enhanced with support for geographic objects (PostGIS). The database is published to the internet by a map server (GeoServer)that overlays it on background maps (e.g. Google maps and Open Street Nap).</p>
+            <p>The website is built using GXP components Certain tools allow users to look at the data and when authorized edit it. Basically the website replaces a desktop GIS with a webbrowser.</p>
+          </div>
+        </div><!-- /.row -->
+
+      </div><!-- /.container -->
+
+    </div><!-- /.section -->
+
+<div class="row">&nbsp;</div> 
+	  <div class="row">&nbsp;</div> 
+<div id="about">
+<div class="section" id="database">
+
+      <div class="container">
+
+        <div class="row">
+          <div class="span6">
+          <h2>Table 1</h2>
+            <table class="table">			
+					<TR><TH>Name in Database	</TH><TH>Description</TH></TR>	
+					<TR><TD>area_id </TD><TD> Unique identifier of area</TD></TR>					 
+					<TR><TD>area_name </TD><TD>Name of the area</TD></TR>	
+					<TR><TD>country </TD><TD>Country the area is in</TD></TR>	
+					<TR><TD>the_geom </TD><TD>Geometry/shape of the area</TD></TR>
+					
+					</table>
+          </div>
+          <div class="span6">
+            <h2>Database</h2>
+            <p class="lead">The database contains two tables. The first table contains the production areas and has four parameters. The second table characterizes the production system of the area. In principle, an area can have multiple production systems, highlighting the diversity within the area. The production system is characterized by 44 parameters.</p>
+          </div>
+        </div><!-- /.row -->
+
+      </div><!-- /.container -->
+
+    </div><!-- /.section -->
+    
+
+
+<div class="section">
+<div class="container">
+<div class="row">
+ <div class="span6">
+ <h2>Table 2</h2> <table class="table">
+<TR><TH>Name in Database		</TH><TH>Description</TH></TR>
+					<TR><TD>area_id 				</TD><TD> Unique identifier of area</TD></TR>	
+					<TR><TD>cultivar_type			</TD><TD>Cultivar type</TD></TR>
+					<TR><TD>cultivar_name			</TD><TD>Cultivar name</TD></TR>
+					<TR><TD>associations			</TD><TD>Crop association</TD></TR>
+					<TR><TD>other_cult				</TD><TD>Other Musa cultivars</TD></TR>
+					<TR><TD>area_product			</TD><TD>Area in production (ha)</TD></TR>
+					<TR><TD>yield					</TD><TD>Production per hectare</TD></TR>
+					<TR><TD>total_prod				</TD><TD>Production in total area (tons)</TD></TR>
+					<TR><TD>density					</TD><TD>	Musa density (mats/ha)</TD></TR>
+					<TR><TD>number_hh				</TD><TD>Use purchased units</TD></TR>
+					<TR><TD>use						</TD><TD>	Primary use of Musa</TD></TR>
+					<TR><TD>production_tendency5 	</TD><TD>Tendency in production area in past 5 years</TD></TR>
+					<TR><TD>yield_tendency5 	 	</TD><TD>Tendency in yield in past 5 years</TD></TR>
+					<TR><TD>inputs			 	 	</TD><TD>Use of purchased units</TD></TR>					
+					<TR><TD>irrigation				</TD><TD>Use of irrigation</TD></TR>
+					<TR><TD>chem_fert				</TD><TD>Chemical fertilizer (kg/ha/yr)</TD></TR>
+					<TR><TD>org_fert				</TD><TD>Organic fertilizer (kg/ha/yr)</TD></TR>
+					<TR><TD>herbicides				</TD><TD>Use of herbicides</TD></TR>
+					<TR><TD>fungicides				</TD><TD>Use of fungicides</TD></TR>
+					<TR><TD>nematicides				</TD><TD>Use of nematicides</TD></TR>
+					<TR><TD>insecticides			</TD><TD>Use of insecticides</TD></TR>
+					<TR><TD>p_goodeyi				</TD><TD>Importance P goodeyi</TD></TR>
+					<TR><TD>p_coffea				</TD><TD>Importance P coffea</TD></TR>
+					<TR><TD>r_similis				</TD><TD>Importance R similis</TD></TR>
+					</TABLE><br>
+          </div>
+          <div class="span6">
+          <h2>&nbsp;</h2>
+            <table class="table">		
+					<TR><TH>Name in Database		</TH><TH>Description</TH></TR>
+					<TR><TD>meloidogyne				</TD><TD>Importance meloidogyne spp</TD></TR>
+					<TR><TD>h_multici				</TD><TD>Importance H multicini</TD></TR>
+					<TR><TD>moko_bugtok				</TD><TD>Importance Moko/Bugtok</TD></TR>
+					<TR><TD>bxw						</TD><TD>Importance BXW</TD></TR>
+					<TR><TD>blood_disease			</TD><TD>Importance Blood Disease</TD></TR>
+					<TR><TD>erwinia					</TD><TD>Importance Erwinia</TD></TR>
+					<TR><TD>other_bac_dis			</TD><TD>Other bacterial diseases</TD></TR>
+					<TR><TD>other_bacdis_im			</TD><TD>Impact other bacterial diseases</TD></TR>
+					<TR><TD>stem_weevil				</TD><TD>Importance stem weevils</TD></TR>
+					<TR><TD>corm_weevil				</TD><TD>Importance stem weevils</TD></TR>
+					<TR><TD>black_streak			</TD><TD>Importance black leaf streak</TD></TR>
+					<TR><TD>yel_sigatoka			</TD><TD>Importance yellow sigatoka</TD></TR>
+					<TR><TD>other_leaf_dis			</TD><TD>Name of other leaf diseases</TD></TR>
+					<TR><TD>oth_leafdis_im			</TD><TD>Impact other leaf diseases</TD></TR>
+					<TR><TD>eumusae					</TD><TD>Ipact eumusae leaf disease</TD></TR>
+					<TR><TD>fus_race1				</TD><TD>Importance Fusarium Race 1</TD></TR>
+					<TR><TD>fus_race2				</TD><TD>Importance Fusarium Race 2</TD></TR>
+					<TR><TD>fus_race4				</TD><TD>Importance Fusarium Race 4</TD></TR>
+					<TR><TD>fus_subtrop4			</TD><TD>Importance Fusarium Subtropical Race 4</TD></TR>
+					<TR><TD>other_fungal			</TD><TD>Name of other fungal diseases</TD></TR>
+					<TR><TD>bbtv					</TD><TD>Importance BBTV</TD></TR>
+					<TR><TD>bsv						</TD><TD>Importance BSV</TD></TR>
+					<TR><TD>other_virus				</TD><TD>Name other viruss</TD></TR>
+					<TR><TD>oth_virus_im			</TD><TD>Impact other virus</TD></TR>
+					
+					 
+					</TABLE><br>
+          </div>
+         
+        </div><!-- /.row -->
+
+      </div><!-- /.container -->
+
+    </div><!-- /.section -->
+
+
+	
+	  <div class="row">&nbsp;</div> 
+	  <div class="row">&nbsp;</div> 
+<div class="section" id="history">
+
+      <div class="container">
+
+        <div class="row">
+         
+          <div class="span6">
+            <h2>History</h2>
+            <p class="lead">The project was initiated at the Banana 2008 international conference in Momabasa, Kenya in 2008. At the conference the International Institute for Tropical Agriculture (IITA) and Bioversity made an effort to define and characterize the spatial extent of main banana and plantain production areas. </p>
+            <p>A mapping exercise was launched for the many banana experts from Sub Saharan African countries. The experts were given a map of their country and asked to mark the main banana growing areas. Each unique area should be similar in terms of agro climate, banana type and production technology. On a short questionnaire additional characteristics about the respective areas were entered (e.g. main cultivar type, production technology information and presence of pests and diseases). After the conference representatives of 10 countries had submitted their data. The areas and the information from the questionnaires were entered into a GIS. In the period that followed, more country experts submitted data per email. At the end of 2010 Costa Rica was added to the geo-database.</p>
+          </div>
+           <div class="span6">
+            <img class="img-responsive" src="http://placehold.it/700x450">
+          </div>
+        </div><!-- /.row -->
+
+      </div><!-- /.container -->
+
+    </div><!-- /.section -->
+    
+	 <div class="row">&nbsp;</div> 
+	  <div class="row">&nbsp;</div> 
+
+
+<div class="section" id="procedure">
+
+      <div class="container">
+
+        <div class="row">
+          <div class="span6">
+            <img class="img-responsive" src="http://placehold.it/700x450">
+          </div>
+          <div class="span6">
+            <h2>Procedure</h2>
+            <p class="lead">To achieve the aim a worldwide map of the main banana producing areas was made. Each of these areas is associated with one or more production system, defined by the predominant Musa cultivar type and crop association/duration.</p>
+            <p> In addition, certain production systems may also be subdivided by other technologies used such as irrigation, level of use of nutrients and/or pesticides and presence of pests and diseases which affect the average yields. A typical problem that arises from such an exercise is that a static map is created, that reflects only the perception of a limited amount of people (map creators) measured in a short time-span (few years). This leads to an inaccurate and often outdated map. To tackle this issue an interective map was created. The intial data in the map indeed suffers from the previously sketched problem. However, the map is interactive meaning that registered users can edit (correct) the spatial boundaries of the production areas and the variables that are associated with these areas. They can also create new ones are remove (incorect) ones. Anonymous users can browse the data that is available and they can export the data to their own computer.</p>
+          </div>
+          
+        </div><!-- /.row -->
+
+      </div><!-- /.container -->
+
+    </div><!-- /.section -->
+  <div class="row">&nbsp;</div> 
+	  <div class="row">&nbsp;</div> 
+	  
+	  </div> <!-- End about div --!>
+
+<div class="section" id="contact">
+
+      <div class="container">
+
+        <div class="row">
+         
+          <div class="span6">
+            <h2>Contact</h2>
+            <p>Anybody that accesses the website is authorized to view, to print and download all the data of the website. But to edit the shape of a banana production area or any of its variables authorization is required. The banana mapper is maintained by Bioversity Commodities Program. For help on the functionality of the site or to get login details please send an email to <a href="emailto:d.brown@cgiar.org">David Brown</a>.
+</p>
+          </div>
+           <div class="span6">
+            <img class="img-responsive" src="http://placehold.it/700x450">
+          </div>
+        </div><!-- /.row -->
+
+      </div><!-- /.container -->
+
+    </div><!-- /.section -->
+
+
+
+      <hr>
+
+      <footer>
+        <p>&copy; CropMapper.org</p>
+      </footer>
+
+   
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+   
+    <script src="./bootstrap/bootstrap.min.js"></script>
+  
+  </body>
+</html>
