@@ -1,4 +1,5 @@
 //This is the Banana Mapper. It is based on viewer.js and was edited from there
+
  
 
 var app,combo,curArea;
@@ -22,7 +23,7 @@ Ext.onReady(function() {
         //this is the page layout 
         portalConfig: {
             id:"MapLayout",
-            layout: "border",
+            layout: "border", //
 			//align: "stretch",
 			//width:  1000,
 		    //height: 800,
@@ -63,7 +64,6 @@ Ext.onReady(function() {
                	width: 350,
 				//add a "add" button to the topbar of this panel
             	 tbar: {
-					
 					items: [
 						"->",
 						{
@@ -109,33 +109,115 @@ Ext.onReady(function() {
             	},{
             	// container for the layers in the map
             	region: "west",
-             	id: "westcontainer",
-             	layout: "vbox", 
-				title:"Map layers",				
+             	id: "westcontainer",		
              	border: true,
+             	xtype: "tabpanel",
+             	activeTab: 0,
                 collapsible: true,
                 collapseMode: "mini",
             	collapsed: false,
                 width: 200,
-                defaults: {
-                		width: "100%",
-                		layout: "fit"
+                items: [
+                	{
+                	title: "Layers",
+                	id:"layerlegend",
+                	layout: "vbox",
+					defaults: {
+                                width: "100%",
+                                layout: "fit"
                 },
-                items:[{
-                	id: "treepanel",
-					layout:'fit',
+					items: 
+						[{
+                		id: "treepanel",
+						defaults: {
+						autoScroll:true
+						},
+                		border: false,
+                		flex: 1
+						},{
+                		id:"legendpanel",
+                		height:450,
+                                        defaults: {
+                                        autoScroll:true,
+                                        }
+						}]
+					}
+					,
+                	{
+                	title: "Filters",
+                	id: "accordionpanel",
+					layout: "accordion",
+					layoutConfig: {
+					titleCollapse: false,
+        			animate: true,
+        			activeOnTop: true,
+			        multi: true
+					},
 					defaults: {
 					autoScroll:true
 					},
                 	border: false,
-                	flex: 1	
+                	flex: 1	,
+                	items: 
+                		[{
+                		title: "Region",
+                		id:"regionfilter",
+						defaults: {
+						autoScroll:true,
+						},
+						border:false
+						},
+						{
+                		title: "Country",
+                		id:"countryfilter",
+						defaults: {
+						autoScroll:true,
+						},
+						border:false
+						},
+						{
+                		title: "Cultivar Type",
+                		id:"cultivarfilter",
+						defaults: {
+						autoScroll:true,
+						},
+						border:false
+						},
+						{
+                		title: "Pests and Diseases",
+                		id:"pestsfilter",
+						defaults: {
+						autoScroll:true,
+						},
+						border:false
+						},
+						{
+                		title: "Advanced Filters",
+                		id:"advancedfilters",
+                		layout: "accordion",
+						defaults: {
+						autoScroll:true,
+						},
+						border:false,						
+						items: 
+							[{
+							title: "Filter1",
+                			id:"filter1",
+							defaults: {
+							autoScroll:true,
+							},
+							border:false
+							},{
+							title: "Filter2",
+                			id:"filter2",
+							defaults: {
+							autoScroll:true,
+							},
+							border:false
+							}]
+						}]	
+                }]
                 },{
-                	id:"legendpanel",
-                	height:450,
-					defaults: {
-					autoScroll:true,
-					}
-                }]},{
 //Insert a footer						
                 id: "footer",
              	height: 200,
@@ -188,8 +270,7 @@ Ext.onReady(function() {
             ptype: "gxp_legend",
 			autoActivate: true,
             actionTarget: "map.tbar",
-			outputTarget: "legendpanel",
-    		menuText: "Overlay Legends"
+			outputTarget: "legendpanel"
 			
         },{	
            ptype: "gxp_measure", 	//add button to measure length and area
@@ -200,7 +281,7 @@ Ext.onReady(function() {
         },{  	
 		   ptype: "gxp_wmsgetfeatureinfo",	//add button to get info of feature pointed at
             actionTarget: "map.tbar",
-			autoActivate: true,			//ToDo at startup this function needs to be on!
+			//autoActivate: true,			ToDo at startup this function needs to be on!
 			format: "grid",
             outputConfig: {
                 width: 350,
@@ -359,7 +440,15 @@ Ext.onReady(function() {
                 args: ["Blank"],
                 visibility: false
 			},{*/
-			    
+			    source: "bioversity",
+                name: gs_workspace+":Country boundaries", //from Geoserver
+                title: "Country Boundaries",
+				projection: "EPSG:4326",
+				tiled:false,
+                queryable: false,
+				opacity: 0.5,
+				visibility: false
+			},{	
 			//add production areas (editable features)
                 source: "bioversity",
                	name: gs_workspace+":banana_areas", //from PostGIS database new variables
@@ -390,17 +479,7 @@ Ext.onReady(function() {
                 queryable: false,
 				opacity: 0.5,
 				visibility: true
-			},{
-			    source: "bioversity",
-                name: gs_workspace+":country_boundaries", //from Geoserver
-                title: "Country Boundaries",
-				projection: "EPSG:4326",
-				tiled:false,
-                queryable: false,
-				opacity: 0.5,
-				group: "background",
-				visibility: false
-			},{	
+            },{
 				source: "google",
 				name: "ROADMAP",
 				group: "background",
@@ -410,14 +489,13 @@ Ext.onReady(function() {
 				name: "SATELLITE",
 				group: "background",
 				visibility: false
-			},{
+			//},{
 			//	Nice background map similar to Google but open source. Cant get it to be printed though, so removed
-                source: "mapquest",
-                name: "osm",
-                 title: "Open Street Map",
-                group: "background",
-				projection:   "EPSG:900913"
-					
+            //    source: "mapquest",
+            //    name: "osm",
+            //     title: "Open Street Map",
+            //    group: "background",
+			//	projection:   "EPSG:900913"
 			}],
             items: [{
                 xtype: "gx_zoomslider",
