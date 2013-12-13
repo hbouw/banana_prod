@@ -69,6 +69,10 @@ include('config.php');
 		 }       
 
 		$sql = "SELECT * FROM banana_lookup order by varname,value"; 
+		
+		
+		
+		
 		$result = pg_query($dbh, $sql);   
 		 if (!$result) {
 			 die("Error in SQL query: " . pg_last_error());
@@ -77,7 +81,8 @@ include('config.php');
 		$firstVar = true;
 		$firstLkp = true;
 		$curVar = "";
-		
+		$curGroup = "";
+				
 		//transfer some javascript variables from php-variables from config.php
 		echo "<script type=\"text/javascript\">";
 		echo "var gs_url = '".GEOSERVER_URL."';";
@@ -87,6 +92,7 @@ include('config.php');
 		echo "var lookups = {";
 		
 		while ($row=pg_fetch_object($result)) {
+					
 			if ($curVar!=$row->varname){
 				$curVar = $row->varname;
 				if ($firstVar) $firstVar=false;
@@ -101,8 +107,37 @@ include('config.php');
 		}
 		echo "]};";
 		
+		
+		
+		$sqlpests= "select * from diseases";
+		$firstLkp = true;
+		
+		$result = pg_query($dbh, $sqlpests);   
+		 if (!$result) {
+			 die("Error in SQL query: " . pg_last_error());
+		 }   
+		 
+		 
+		echo "var pestsLookups = {";
+		echo "\"pest_diseases\":[";
+		
+		while ($row=pg_fetch_object($result)) {			
+			
+			if ($firstLkp) $firstLkp = false;
+			else echo ",";
+			echo "[\"" . $row->namedb . "\",\"" . $row->nameneat . "\"]";
+		}
+		echo "]};";
+		
+		
+		
+		
+		
+		
+		
 		echo "var AssStore = new Ext.data.ArrayStore({fields: [\"id\", \"label\"],data : lookups[\"association\"] });";
 		echo "var CltStore = new Ext.data.ArrayStore({fields: [\"id\", \"label\"],data : lookups[\"cultivar_type\"] });";
+		
 		echo "var user = "; 
 		if ($_SESSION['user']) echo "true;";
 		else echo "false;";

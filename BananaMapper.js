@@ -157,7 +157,58 @@ Ext.onReady(function() {
 					autoScroll:true
 					},
                 	border: false,
-                	flex: 1	,
+                	flex: 1,
+                	items:
+                	[{
+                		title: "Cultivar Type",
+                		id: "cultivarfilter",
+                		xtype: "combo",
+                		store: new Ext.data.ArrayStore({
+						fields: ['id', 'label'],
+						data : lookups['cultivar_type'],						
+					}),
+					typeAhead: true,
+					mode: 'local',
+					forceSelection: true,
+					triggerAction: 'all',
+					emptyText:'All cultivars',
+					selectOnFocus:true,
+					editable: false,
+					valueField: 'id',
+					displayField: 'label' 
+                	},
+                	{
+                		title: "Pests and Diseases",
+                		id: "pestsfilter",
+                		xtype: "combo",
+                		store: new Ext.data.ArrayStore({
+						fields: ['id', 'label'],
+						data : pestsLookups['pest_diseases'],						
+					}),
+					typeAhead: true,
+					mode: 'local',
+					forceSelection: true,
+					triggerAction: 'all',
+					emptyText:'None selected',
+					selectOnFocus:true,
+					editable: false,
+					valueField: 'id',
+					displayField: 'label' 
+                	}
+                	
+                	,
+                	{
+                		title: "Countries",
+                		id: "countryfilter",
+                		xtype: "combo"	
+                	}
+                	
+                	
+                	
+                	]
+                	
+                	/*
+                	,
                 	items: 
                 		[{
                 		title: "Region",
@@ -216,7 +267,7 @@ Ext.onReady(function() {
 							border:false
 							}]
 						}]	
-                }]
+                */}]
                 },{
 //Insert a footer						
                 id: "footer",
@@ -562,6 +613,10 @@ Ext.onReady(function(){
 		{name:'bsv',type: 'string'}, 
 		{name:'other_virus',type: 'string'},
 		{name:'oth_virus_im',type: 'string'}
+		
+		
+		
+		
 ]);
 	
 	
