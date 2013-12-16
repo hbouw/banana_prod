@@ -4,6 +4,7 @@
 
 var app,combo,curArea;
 var login=false;
+var production_systemfilter="";
 
 //style for featureInfo highlight
 var featureInfoStyle = new OpenLayers.StyleMap({
@@ -48,9 +49,8 @@ Ext.onReady(function() {
                 activeTab: 0, // choose tab 0 (map) to be visible on initialization
                 border: false,
                 items: ["mymap", 
-					{title: "Background",padding:15,contentEl:'Background'}, 
 					{title: "Help",padding:15,contentEl:'Help'},  
-					{title: "Login",padding:15,contentEl:'Login',disabled:user}]
+					]
                 },{
 				//container for the Production systems information
                 region: "east",
@@ -159,7 +159,13 @@ Ext.onReady(function() {
                 	border: false,
                 	flex: 1,
                 	items:
-                	[{
+                	[
+                	 {buttons: [{
+            text: 'Save'
+        },{
+            text: 'Cancel'
+        }]},
+                	{
                 		title: "Cultivar Type",
                 		id: "cultivarfilter",
                 		xtype: "combo",
@@ -181,19 +187,20 @@ Ext.onReady(function() {
                 		title: "Pests and Diseases",
                 		id: "pestsfilter",
                 		xtype: "combo",
+                		multiSelect: true,
+                		typeAhead: true,
+						mode: 'local',
+						forceSelection: true,
+						triggerAction: 'all',
+						emptyText:'None selected',
+						selectOnFocus:true,
+						editable: false,
+						valueField: 'id',
+						displayField: 'label',
                 		store: new Ext.data.ArrayStore({
 						fields: ['id', 'label'],
-						data : pestsLookups['pest_diseases'],						
-					}),
-					typeAhead: true,
-					mode: 'local',
-					forceSelection: true,
-					triggerAction: 'all',
-					emptyText:'None selected',
-					selectOnFocus:true,
-					editable: false,
-					valueField: 'id',
-					displayField: 'label' 
+						data : pestsLookups['pest_diseases']
+					}) 
                 	}
                 	
                 	,
@@ -202,7 +209,7 @@ Ext.onReady(function() {
                 		id: "countryfilter",
                 		xtype: "combo"	
                 	}
-                	
+             
                 	
                 	
                 	]
@@ -289,6 +296,11 @@ Ext.onReady(function() {
               
 			},
         
+    
+        
+
+       
+        
 // Configuration of all tool plugins for this application
        tools: [{
             ptype: "gxp_layertree",
@@ -305,6 +317,11 @@ Ext.onReady(function() {
 		   ptype: "gxp_addlayers", 
            actionTarget: "tree.tbar"
          },{
+			xtype:"tbtext",
+			actionTarget: "map.tbar",
+			text: "Pietje"         
+         },
+         {
            ptype: "gxp_removelayer",
            actionTarget: ["tree.tbar", "tree.contextMenu"] //add button 'remove layer' to the tree.tbar to remove in tree selected layer
          },{
@@ -314,7 +331,8 @@ Ext.onReady(function() {
 		   ptype: "gxp_zoomtoextent",
            actionTarget: "map.tbar",//add button 'zoom to extent' to the map.tbar
            index: 1
-        },{
+        },
+{
            ptype: "gxp_zoom",
            actionTarget: "map.tbar"    //add buttons 'zoom out' and 'zoom in' to the map.tbar
         },{
@@ -882,6 +900,11 @@ Ext.Ajax.request({
 
 }	
 
+
+
+
+
+
 //add highlight of identified object to map, called from feature-info render-event, configured in userconfig.ashx (from database))
 function addHighlight(feature) {
     //add feature to map
@@ -896,7 +919,8 @@ function addHighlight(feature) {
     vectors.addFeatures([feature]);
 	} catch (exp) {}
 }
-	
+
+
 //try {
 //        app.mapPanel.map.getLayersByName("highlightLayer")[0].removeAllFeatures();
 //    } catch (e) { }	

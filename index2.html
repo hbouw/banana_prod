@@ -25,15 +25,6 @@
 			var _username = $("#username").val();
 			var _password = $("#password").val();
 			var _geoserver = "http://"+window.location.hostname + "/geoserver/j_spring_security_check"			
-		
-					
-			
-			$.ajax({type:"GET",data:"html",url:"http://localhost:8080/geoserver/web", succes: function(data){alert( "Load was performed." )}});
-			
-			$.ajax({type:
-				"POST",data:"html",url:"../geoserver/j_spring_security_check", data:{username: _username, password: _password}, succes: function(){
-				}});
-				
 				
 			$.ajax({type:
 				"POST",data:"json",url:"./Login.php", data:{username: _username, password: _password, url: _geoserver}, success: function(data){
@@ -42,14 +33,11 @@
 					window.location = "./index.php";
 				}
 				else {
-					alert("Credentials are not valid.");
+					alert("Credentials are not valid");
 				}
 				
 				}, error: function (data) { alert("error");console.log("error");
-        	}});
-				
-			// Send request to php script on server. Wait for response. If response okay >> Logged in >> forward user to application.
-			
+        	}});	
 				
 				
 		});
