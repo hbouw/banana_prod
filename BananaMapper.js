@@ -136,7 +136,7 @@ Ext.onReady(function() {
                 		flex: 1
 						},{
                 		id:"legendpanel",
-                		height:450,
+                		height:300,
                                         defaults: {
                                         autoScroll:true,
                                         }
@@ -354,7 +354,7 @@ Ext.onReady(function() {
 			format: "grid",
             outputConfig: {
                 width: 350,
-                height: 180
+                height: 200
             	},
             itemConfig: {
 					//replace field area_id with a link to view production systems
@@ -868,10 +868,10 @@ function getEditor(type){
 function getLookup(type,id){
 	var store = new Ext.data.ArrayStore({fields: ["id", "label"],data : lookups[type] });
 	try {
-		if (store.find('id',id)==-1) return "No data";
+		if (store.find('id',id)==-1) return "-";
 		else return store.getAt(store.find('id',id)).get('label');
 	} catch (e) {
-		return "No data";
+		return "-";
 	}
 }
 

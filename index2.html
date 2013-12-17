@@ -121,18 +121,21 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="span4">
-          <h2>History</h2>
-          <p>The project was initiated at the Banana 2008 international conference in Momabasa, Kenya in 2008. At the conference the International Institute for Tropical Agriculture (IITA) and Bioversity made an effort to define and characterize the spatial extent of main banana and plantain production areas.</p>
+         <h2>Problem</h2>
+          <p>Access to reliable data on banana production is needed for effective planning and setting of priorities in research and economic development. This web mapping application aims to improve, to make available and to share spatial information on global banana production. </p>
           <p><a class="btn" href="#history">View details &raquo;</a></p>
         </div>
         <div class="span4">
-          <h2>Procedure</h2>
-          <p>To achieve the aim a worldwide map of the main banana producing areas was made. Each of these areas is associated with one or more production system, defined by the predominant Musa cultivar type and crop association/duration.</p>
+			<h2>Procedure</h2>
+          <p>To achieve the aim a worldwide map of the main banana producing areas was made. Each of these areas is associated with one or more production systems, defined by the predominant Musa cultivar type and crop association/duration. Authorized users can modify the spatial boundaries of banana areas and alter the associated characteristics, thus improving and adding to the databanana systemn database. Any change is instantly published and thus visible to any new visitor of the website.</p>
+		  
+		  The mapp
+		  
           <p><a class="btn" href="#procedure">View details &raquo;</a></p>
        </div>
         <div class="span4">
           <h2>Mapping System</h2>
-          <p>Two sets of information are shown as maps overlaying base maps stored in a PostGreSQL database which is enhanced with support for geographic objects (PostGIS). The database is published to the internet by a map server (GeoServer)that overlays it on background maps (e.g. Google maps and Open Street Nap).</p>
+          <p>Two sets of information are shown as maps overlaying base maps stored in a PostGreSQL database which is enhanced with support for geographic objects (PostGIS). The database is published to the internet by a map server (GeoServer)that overlays it on background maps (e.g. Google maps and Open Street Map).</p>
           <p><a class="btn" href="#mappingsystem">View details &raquo;</a></p>
         </div>
       </div>
@@ -151,8 +154,7 @@
           </div>
           <div class="span6">
             <h2>Mapping System</h2>
-            <p class="lead">Two sets of information are shown as maps overlaying base maps stored in a PostGreSQL database which is enhanced with support for geographic objects (PostGIS). The database is published to the internet by a map server (GeoServer) that overlays it on background maps (e.g. Google maps and Open Street Map).</p>
-            <p>The website is built using GXP components. Tools allow users to look at the data and when authorized edit it. Basically the website replaces a desktop GIS with a webbrowser.</p>
+            <p class="lead">Two sets of information are shown as maps overlaying base maps stored in a PostGreSQL database which is enhanced with support for geographic objects (PostGIS). The database is published to the internet by a map server (GeoServer) that overlays it on background maps (e.g. Google maps and Open Street Map). The website is built using GXP components. Tools allow users to look at the data and when authorized edit it. Basically the website replaces a desktop GIS with a webbrowser.</p>
           </div>
         </div><!-- /.row -->
 
@@ -168,21 +170,23 @@
       <div class="container">
 
         <div class="row">
+		 <div class="span6">
+            <h2>Database</h2>
+            <p class="lead">The database contains two tables. The first table has four parameters, including the geometry of the the geometry of the production areas. The second table characterizes the production system of the area. In principle, an area can have multiple production systems, highlighting the diversity within the areas. The production system is characterized by 46 parameters.</p>
+          </div>
           <div class="span6">
           <h2>Table 1</h2>
             <table class="table">			
 					<TR><TH>Name in Database	</TH><TH>Description</TH></TR>	
 					<TR><TD>area_id </TD><TD> Unique identifier of area</TD></TR>					 
 					<TR><TD>area_name </TD><TD>Name of the area</TD></TR>	
-					<TR><TD>country </TD><TD>Country the area is in</TD></TR>	
+					<TR><TD>country </TD><TD>Country the area is in</TD></TR>
+					<TR><TD>region </TD><TD>Region the area is in</TD></TR>	
 					<TR><TD>the_geom </TD><TD>Geometry/shape of the area</TD></TR>
 					
 					</table>
           </div>
-          <div class="span6">
-            <h2>Database</h2>
-            <p class="lead">The database contains two tables. The first table contains the production areas and has four parameters. The second table characterizes the production system of the area. In principle, an area can have multiple production systems, highlighting the diversity within the area. The production system is characterized by 44 parameters.</p>
-          </div>
+		  
         </div><!-- /.row -->
 
       </div><!-- /.container -->
@@ -221,13 +225,13 @@
 					<TR><TD>p_goodeyi				</TD><TD>Importance P goodeyi</TD></TR>
 					<TR><TD>p_coffea				</TD><TD>Importance P coffea</TD></TR>
 					<TR><TD>r_similis				</TD><TD>Importance R similis</TD></TR>
+					<TR><TD>meloidogyne				</TD><TD>Importance meloidogyne spp</TD></TR>
 					</TABLE><br>
           </div>
           <div class="span6">
           <h2>&nbsp;</h2>
             <table class="table">		
 					<TR><TH>Name in Database		</TH><TH>Description</TH></TR>
-					<TR><TD>meloidogyne				</TD><TD>Importance meloidogyne spp</TD></TR>
 					<TR><TD>h_multici				</TD><TD>Importance H multicini</TD></TR>
 					<TR><TD>moko_bugtok				</TD><TD>Importance Moko/Bugtok</TD></TR>
 					<TR><TD>bxw						</TD><TD>Importance BXW</TD></TR>
@@ -301,7 +305,7 @@
           </div>
           <div class="span6">
             <h2>Procedure</h2>
-            <p class="lead">To achieve the aim a worldwide map of the main banana producing areas was made. Each of these areas is associated with one or more production systems, defined by a uniqu combination of the predominant Musa cultivar type and the crop association/duration.</p>
+            <p class="lead">To achieve the aim a worldwide map of the main banana producing areas was made. Each of these areas is associated with one or more production systems, defined by a unique combination of the predominant Musa cultivar type and the crop association/duration.</p>
             <p> In addition, certain production systems may also be subdivided by other technologies used such as irrigation, level of use of nutrients and/or pesticides and presence of pests and diseases which affect the average yields. A typical problem that arises from such an exercise is that a static map is created, that reflects only the perception of a limited amount of people (map creators) measured in a short time-span (few years). This leads to an inaccurate and often outdated map. To tackle this issue an interective map was created. The intial data in the map indeed suffers from the previously sketched problem. However, the map is interactive meaning that registered users can edit (correct) the spatial boundaries of the production areas and the variables that are associated with these areas. They can also create new ones are remove (incorect) ones. Anonymous users can browse the data that is available and they can export the data to their own computer.</p>
           </div>
           
