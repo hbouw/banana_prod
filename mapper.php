@@ -131,7 +131,7 @@ include('config.php');
 		</script>
 		
         <!--Banana Mapper -->        
-        <link rel="stylesheet" type="text/css" href="index.css"/>
+        <link rel="stylesheet" type="text/css" href="mapper.css"/>
         <script type="text/javascript" src="BananaMapper.js"></script>
 		<script type="text/javascript" src="script/gxp/externals/ux/RowExpander.js"></script>
 		<script type="text/javascript" src="script/gxp/externals/ux/PrintPreview/PrintPreview.js"></script>
@@ -165,10 +165,10 @@ include('config.php');
 			
 			<?php if ($_SESSION['user']){
 			 echo "<H1 style=\"text-shadow:2px 2px 2px #fff;float:left;margin-top:10px;margin-left:10px;font-size:xx-large;\">CropMapper.org - <i>Banana - Editor</i></H1>";			
-			 echo "<p style=\"float:right;font-size:small;margin:10px;font-weight:bold;color:black\">Welcome: <a href=\"./index2.html\" alt=\"Log in with a different account\">". $_SESSION['username']."</a></p>"; 
+			 echo "<p style=\"float:right;font-size:small;margin:10px;font-weight:bold;color:black\">Welcome: <a href=\"./index.html\" alt=\"Log in with a different account\">". $_SESSION['username']."</a></p>"; 
 			} else {
 			echo "<H1 style=\"text-shadow:2px 2px 2px #fff;float:left;margin-top:10px;margin-left:10px;font-size:xx-large;\">CropMapper.org - <i>Banana - Viewer</i></H1>";			
-        	echo "<a href=\"./index2.html\" alt=\"Log in\"style=\"float:right;font-size:small;margin:10px;font-weight:bold;color:black\">Not logged in</a>"; 
+        	echo "<a href=\"./index.html\" alt=\"Log in\"style=\"float:right;font-size:small;margin:10px;font-weight:bold;color:black\">Not logged in</a>"; 
         	
         	}
         	?>

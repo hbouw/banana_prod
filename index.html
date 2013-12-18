@@ -30,7 +30,7 @@
 				"POST",data:"json",url:"./Login.php", data:{username: _username, password: _password, url: _geoserver}, success: function(data){
 				var login = JSON.parse(data)
 				if (login["login"] == "true") {
-					window.location = "./index.php";
+					window.location = "./mapper.php";
 				}
 				else {
 					alert("Credentials are not valid");
@@ -74,8 +74,8 @@
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
-                            <li><a href="./index.php">Viewer</a></li>
-                                                        <li><a href="./index.php">Editor</a></li>
+                            <li><a href="./mapper.php">Viewer</a></li>
+                                                        <li><a href="./mapper.php">Editor</a></li>
               <!--<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -106,7 +106,7 @@
       <div class="hero-unit">
         <h1>CropMapper.org - Banana</h1>
         <p class="hero-unit_p">The aim of the banana mapper is to collect and to make available spatial information on global banana production systems.</p>
-        <p><a href="./index.php" class="btn btn-primary btn-large">Banana Mapper&raquo;</a></p>
+        <p><a href="./mapper.php" class="btn btn-primary btn-large">Banana Mapper&raquo;</a></p>
         <p class="muted" id="attribution"><a href="http://www.flickr.com/photos/exfordy/277554053/in/photostream/">Source</a> and <a href="http://creativecommons.org/licenses/by/2.0/">License</a> image</p>
         <image 
       </div>
