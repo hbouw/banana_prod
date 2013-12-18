@@ -7,7 +7,6 @@ define('DB_HOST', 'localhost'); //define location/host of database, in this case
 define('DB_PORT', '5432'); //specifies port on which the postgres db is
 define('DB_NAME', 'cropmapper_banana_test'); //specifies the postgres database name
 define('GEOSERVER_URL', '/geoserver'); //define location/host of geoserver, in this case localhost because both php and geoserver are on same server
-define('SECURED_LAYER','protected:states'); //specifies the secure (dummy) layer in geoserver, necessary for the login procedure 
 define('DOWNLOAD_LAYER','banana_systems');	//specifies the layer in GeoServer) that is to be downloaded 
 define('GS_WORKSPACE','banana_test');
 
