@@ -107,13 +107,25 @@ include('config.php');
 		
 		
 		// Query countries
-		$sqlcountries = "SELECT country FROM banana_systems GROUP BY country";
+		$sqlcountries = "SELECT country FROM banana_systems GROUP BY country ORDER BY country ASC";
 		$firstLkp = true;
+		
+		// Query regions
+		$sqlregions = "select countries.region from banana_systems INNER JOIN countries ON banana_systems.country=countries.country group by countries.region";
+		$firstLkpRegions = true;
 		
 		$result = pg_query($dbh, $sqlcountries);   
 		 if (!$result) {
 			 die("Error in SQL query: " . pg_last_error());
-		 }    
+		 }  
+		 
+		 $resultRegions = pg_query($dbh, $sqlregions);   
+		 if (!$resultRegions) {
+			 die("Error in SQL query: " . pg_last_error());
+		 }  
+		 
+		 
+		   
 			
 		echo "var countryLookup = {";
 		echo "\"countries\":[";
@@ -123,12 +135,21 @@ include('config.php');
 			else echo ",";
 			echo "[\"" . $row->country. "\",\"" . $row->country. "\"]" ;
 		}
+		echo "],\"regions\":[";
+		while ($row=pg_fetch_object($resultRegions)) {			
+			if ($firstLkpRegions) $firstLkpRegions = false;
+			else echo ",";
+			echo "[\"" . $row->region. "\",\"" . $row->region. "\"]" ;
+		}
+		
 		echo "]};";
 		
 		
 		
+		
+		
 		// Query the pests and diseases
-		$sqlpests= "select * from diseases";
+		$sqlpests= "select * from diseases ORDER BY nameneat ASC";
 		$firstLkp = true;
 		
 		$result = pg_query($dbh, $sqlpests);   

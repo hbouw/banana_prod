@@ -2,6 +2,13 @@ body, td, th, li, div {
 	font-family:verdana,arial;
 }
 
+
+#Head_html{
+ font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+
+}
+
 /* styles for geoserver featureinfo */
 table.featureInfo, table.featureInfo td, table.featureInfo th {
     border: 1px solid #ddd;

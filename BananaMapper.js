@@ -1,8 +1,6 @@
 //This is the Banana Mapper. It is based on viewer.js and was edited from there
 
  
-lookups['cultivar_type'].push(["","All cultivars"]);
-countryLookup['countries'].push(["",'All countries']);
 
 
 var app,combo,curArea;
@@ -20,7 +18,9 @@ var featureInfoStyle = new OpenLayers.StyleMap({
 });
 
 Ext.onReady(function() {
-	
+	lookups['cultivar_type'].push(["","All cultivars"]);
+	countryLookup['countries'].push(["",'All countries']);
+	 countryLookup['regions'].push(["",'All regions']);
 	
     app = new gxp.Viewer({
         proxy: "proxy.php?url=",
@@ -171,19 +171,17 @@ Ext.onReady(function() {
 							handler: function()
 								{
 									var comboCult = Ext.getCmp("cultivarfilter");
-									var cultVal = comboCult.getValue();
-									if (cultVal!="" | cultVal != 0){
-										if (production_systemfilter ==""){
-											production_systemfilter += "CQL_FILTER=";
-										}
-										
-										production_systemfilter += "cultivar_type=" + cultVal.toString();
-										console.log(production_systemfilter);									
-										// Apply filter and reload the map
-										// Clear filter
-										production_systemfilter = "";
-									}
+									processCultivarFilter(comboCult);
+									var comboCountry = Ext.getCmp("countryfilter");
+									processCountryFilter(comboCountry);									
+									var comboRegion = Ext.getCmp("regionfilter");
+									processRegionFilter(comboRegion);		
+									var comboPests = Ext.getCmp("pestsfilter");
+									processPestsFilter(	comboPests);
+									applyFilter();
 									
+									// clear filter
+									production_systemfilter="";
 		            			}
        						},{
             			text: 'Cancel'
@@ -229,6 +227,7 @@ Ext.onReady(function() {
                 	},
                 	{
 						xtype: 'checkboxcombo',
+						id: "pestsfilter",
 						hiddenName: 'field_name',
 						fieldLabel: 'Field Label',
 						store:new Ext.data.ArrayStore({
@@ -954,11 +953,6 @@ Ext.Ajax.request({
 
 }	
 
-
-
-
-
-
 //add highlight of identified object to map, called from feature-info render-event, configured in userconfig.ashx (from database))
 function addHighlight(feature) {
     //add feature to map
@@ -974,8 +968,90 @@ function addHighlight(feature) {
 	} catch (exp) {}
 }
 
+// Functions for processing filters
 
-//try {
-//        app.mapPanel.map.getLayersByName("highlightLayer")[0].removeAllFeatures();
-//    } catch (e) { }	
+function processCultivarFilter(comboBox){
+	var cultVal = comboBox.getValue();								
+	if (cultVal!="" | cultVal != 0){
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}
+		production_systemfilter += "cultivar_type=" + cultVal.toString();
+										
+	}
+}
+
+function processCountryFilter(comboBox){
+	var countryVal = comboBox.getValue();								
+	if (countryVal!="" | countryVal != 0){
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}
+		production_systemfilter += "country='" + countryVal + "'";
+										
+	}
+}
+
+function processRegionFilter(comboBox){
+	var regionVal = comboBox.getValue();								
+	if (regionVal!="" | regionVal != 0){
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+		production_systemfilter += "region='" + regionVal + "'";
+				
+	}
+}
+
+function processPestsFilter(comboBox){
+	var pestsVal = comboBox.getValue();	
+	if (pestsVal!="" | pestsVal != 0){
 	
+		var pestsArray = pestsVal.split(",");
+		var filter=""
+		var first = true
+		pestsArray.forEach(function(item){
+			if(!first){
+				
+				filter+=" AND ";
+				
+			}
+			first=false;
+			filter+=item+">0 AND "+item+"<5"
+		});
+		if (production_systemfilter !=""){
+			production_systemfilter += " AND ";
+		}			
+		production_systemfilter += filter;
+		console.log(production_systemfilter);
+	}
+}
+
+
+
+
+function applyFilter() {
+    var cqlFilterBase = production_systemfilter
+    var cqlFilter = cqlFilterBase;
+    var layer;
+	app.mapPanel.map.layers.forEach(function(entry){
+    	if (entry.name=="Production Systems"){
+        	layer=entry;
+    	}
+	});	
+	if (layer && layer.mergeNewParams) {
+		if (cqlFilter !=""){			
+    		layer.mergeNewParams({ cql_filter: cqlFilter });
+        }            
+    	else{
+    		layer.mergeNewParams({ cql_filter: null });
+    	}
+    }
+
+
+
+
+}
+
+
+
