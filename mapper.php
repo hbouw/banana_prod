@@ -14,6 +14,7 @@ include('config.php');
        <!--Ext -->
         <link rel="stylesheet" type="text/css" href="script/gxp/externals/ext-3.4.0/resources/css/ext-all.css" />
         <link rel="stylesheet" type="text/css" href="script/gxp/externals/ext-3.4.0/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" type="text/css" href="script/Ext.ux.form.CheckboxCombo.min.css" />
 		<?php 
 		//if (DEBUG) {
 		//	echo "<script src=\"script/gxp/externals/ext-3.4.0/adapter/ext/ext-base-debug.js\"></script>";
@@ -56,6 +57,7 @@ include('config.php');
 		?>
         <script type="text/javascript" src="AreaEditPanel.js"></script>
 		<script type="text/javascript" src="downloadtool.js"></script>
+		<script type="text/javascript" src="script/Ext.ux.form.CheckboxCombo.min.js"></script>
 	</script>	
 			
 			
@@ -66,6 +68,16 @@ include('config.php');
 			 error_log("Error in connection:".pg_last_error());
 			 die("Excuse us, the application can not start due to an error in the database connection: " . pg_last_error());
 		 }       
+		
+				
+		//transfer some javascript variables from php-variables from config.php
+		echo "<script type=\"text/javascript\">";
+		echo "var gs_url = '".GEOSERVER_URL."';";
+		echo "var SECURED_LAYER = \"".SECURED_LAYER."\";";
+		echo "var DOWNLOAD_LAYER = \"".DOWNLOAD_LAYER."\";";
+		echo "var gs_workspace = \"".GS_WORKSPACE."\";";
+		
+		// Query banana variables and possible values
 		$sql = "SELECT * FROM banana_lookup order by varname,value"; 
 		$result = pg_query($dbh, $sql);   
 		 if (!$result) {
@@ -76,15 +88,8 @@ include('config.php');
 		$firstLkp = true;
 		$curVar = "";
 		$curGroup = "";
-				
-		//transfer some javascript variables from php-variables from config.php
-		echo "<script type=\"text/javascript\">";
-		echo "var gs_url = '".GEOSERVER_URL."';";
-		echo "var SECURED_LAYER = \"".SECURED_LAYER."\";";
-		echo "var DOWNLOAD_LAYER = \"".DOWNLOAD_LAYER."\";";
-		echo "var gs_workspace = \"".GS_WORKSPACE."\";";
-		echo "var lookups = {";
 		
+		echo "var lookups = {";	
 		while ($row=pg_fetch_object($result)) {
 			if ($curVar!=$row->varname){
 				$curVar = $row->varname;
@@ -101,7 +106,28 @@ include('config.php');
 		echo "]};";
 		
 		
+		// Query countries
+		$sqlcountries = "SELECT country FROM banana_systems GROUP BY country";
+		$firstLkp = true;
 		
+		$result = pg_query($dbh, $sqlcountries);   
+		 if (!$result) {
+			 die("Error in SQL query: " . pg_last_error());
+		 }    
+			
+		echo "var countryLookup = {";
+		echo "\"countries\":[";
+		
+		while ($row=pg_fetch_object($result)) {			
+			if ($firstLkp) $firstLkp = false;
+			else echo ",";
+			echo "[\"" . $row->country. "\",\"" . $row->country. "\"]" ;
+		}
+		echo "]};";
+		
+		
+		
+		// Query the pests and diseases
 		$sqlpests= "select * from diseases";
 		$firstLkp = true;
 		
@@ -120,7 +146,7 @@ include('config.php');
 			echo "[\"" . $row->namedb . "\",\"" . $row->nameneat . "\"]";
 		}
 		echo "]};";
-
+		
 		echo "var AssStore = new Ext.data.ArrayStore({fields: [\"id\", \"label\"],data : lookups[\"association\"] });";
 		echo "var CltStore = new Ext.data.ArrayStore({fields: [\"id\", \"label\"],data : lookups[\"cultivar_type\"] });";
 		

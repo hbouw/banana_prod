@@ -57,7 +57,7 @@
 				"POST",data:"json",url:"./Login.php", data:{username: _username, password: _password, url: _geoserver}, success: function(data){
 				var login = JSON.parse(data)
 				if (login["login"] == "true") {
-					window.location = "./mapper.php";
+					window.location = "./index.php";
 				}
 				else {
 					bootbox.alert("Credentials are not valid");
@@ -99,11 +99,27 @@
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
+<<<<<<< Updated upstream:index.html
+                            <li><a href="./mapper.php">Viewer</a></li>
+                                                        <li><a href="./mapper.php">Editor</a></li>
+              <!--<li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li><!-->
+                </ul>
+=======
               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Banana-Mapper<b class="caret"></b></a>
                 	<ul class="dropdown-menu">
-                    	<li><a id="viewer" href="./mapper.php">Viewer</a></li>
+                    	<li><a id="viewer" href="./index.php">Viewer</a></li>
 		            	<li><a id="editor" href="#">Editor</a></li>
                 	</ul>
+>>>>>>> Stashed changes:index2.html
               </li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -118,8 +134,12 @@
       <div class="hero-unit">
         <h1>CropMapper.org - Banana</h1>
         <p class="hero-unit_p">The aim of the banana mapper is to collect and to make available spatial information on global banana production systems.</p>
-        <p><a href="./mapper.php" class="btn btn-primary btn-large">Viewer&raquo;</a>
+<<<<<<< Updated upstream:index.html
+        <p><a href="./mapper.php" class="btn btn-primary btn-large">Banana Mapper&raquo;</a></p>
+=======
+        <p><a href="./index.php" class="btn btn-primary btn-large">Viewer&raquo;</a>
          <a href="#" class="btn btn-primary btn-large" id="editorbutton">Editor&raquo;</a></p>
+>>>>>>> Stashed changes:index2.html
         <p class="muted" id="attribution"><a href="http://www.flickr.com/photos/exfordy/277554053/in/photostream/">Source</a> and <a href="http://creativecommons.org/licenses/by/2.0/">License</a> image</p>
         <image 
       </div>

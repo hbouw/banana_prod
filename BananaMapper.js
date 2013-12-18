@@ -1,6 +1,9 @@
 //This is the Banana Mapper. It is based on viewer.js and was edited from there
 
  
+lookups['cultivar_type'].push(["","All cultivars"]);
+countryLookup['countries'].push(["",'All countries']);
+
 
 var app,combo,curArea;
 var login=false;
@@ -17,6 +20,7 @@ var featureInfoStyle = new OpenLayers.StyleMap({
 });
 
 Ext.onReady(function() {
+	
 	
     app = new gxp.Viewer({
         proxy: "proxy.php?url=",
@@ -125,7 +129,7 @@ Ext.onReady(function() {
 					defaults: {
                                 width: "100%",
                                 layout: "fit"
-                },
+               		},
 					items: 
 						[{
                 		id: "treepanel",
@@ -146,13 +150,14 @@ Ext.onReady(function() {
                 	{
                 	title: "Filters",
                 	id: "accordionpanel",
-					layout: "accordion",
-					layoutConfig: {
+					layout: "vbox",
+					height:400,
+					/*layoutConfig: {
 					titleCollapse: false,
         			animate: true,
         			activeOnTop: true,
 			        multi: true
-					},
+					},*/
 					defaults: {
 					autoScroll:true
 					},
@@ -160,56 +165,105 @@ Ext.onReady(function() {
                 	flex: 1,
                 	items:
                 	[
-                	 {buttons: [{
-            text: 'Save'
-        },{
-            text: 'Cancel'
-        }]},
+                	{
+                		buttons: [{
+							text: 'Save',
+							handler: function()
+								{
+									var comboCult = Ext.getCmp("cultivarfilter");
+									var cultVal = comboCult.getValue();
+									if (cultVal!="" | cultVal != 0){
+										if (production_systemfilter ==""){
+											production_systemfilter += "CQL_FILTER=";
+										}
+										
+										production_systemfilter += "cultivar_type=" + cultVal.toString();
+										console.log(production_systemfilter);									
+										// Apply filter and reload the map
+										// Clear filter
+										production_systemfilter = "";
+									}
+									
+		            			}
+       						},{
+            			text: 'Cancel'
+        				}]
+        			},
                 	{
                 		title: "Cultivar Type",
                 		id: "cultivarfilter",
                 		xtype: "combo",
                 		store: new Ext.data.ArrayStore({
-						fields: ['id', 'label'],
-						data : lookups['cultivar_type'],						
-					}),
-					typeAhead: true,
-					mode: 'local',
-					forceSelection: true,
-					triggerAction: 'all',
-					emptyText:'All cultivars',
-					selectOnFocus:true,
-					editable: false,
-					valueField: 'id',
-					displayField: 'label' 
-                	},
-                	{
-                		title: "Pests and Diseases",
-                		id: "pestsfilter",
-                		xtype: "combo",
-                		multiSelect: true,
-                		typeAhead: true,
+							fields: ['id', 'label'],
+							data : lookups['cultivar_type'],						
+						}),
+						typeAhead: true,
 						mode: 'local',
-						forceSelection: true,
+						forceSelection: false,
 						triggerAction: 'all',
-						emptyText:'None selected',
+						emptyText:'All cultivars',
 						selectOnFocus:true,
 						editable: false,
 						valueField: 'id',
-						displayField: 'label',
-                		store: new Ext.data.ArrayStore({
-						fields: ['id', 'label'],
-						data : pestsLookups['pest_diseases']
-					}) 
-                	}
-                	
+						displayField: 'label' 
+                	}            	
                 	,
                 	{
                 		title: "Countries",
                 		id: "countryfilter",
-                		xtype: "combo"	
+                		xtype: "combo"	,
+                		typeAhead: true,
+						mode: 'local',
+						forceSelection: false,
+						triggerAction: 'all',
+						emptyText:'All countries',
+						selectOnFocus:true,
+						editable: false,
+						valueField: 'id',
+						displayField: 'label' ,
+                		store: new Ext.data.ArrayStore({
+                			fields: ['id', 'label'],
+                			data: countryLookup ['countries']              		
+                			})
+                	
+                	},
+                	{
+						xtype: 'checkboxcombo',
+						hiddenName: 'field_name',
+						fieldLabel: 'Field Label',
+						store:new Ext.data.ArrayStore({
+							fields: ['id', 'label'],
+							data : pestsLookups['pest_diseases']
+						}) ,
+						valueField: 'id',
+						displayField: 'label',
+						allowBlank: true,
+						emptyText: 'No pests and diseases'
+					},
+					{
+                		title: "Regions",
+                		id: "regionfilter",
+                		xtype: "combo"	,
+                		typeAhead: true,
+						mode: 'local',
+						forceSelection: false,
+						triggerAction: 'all',
+						emptyText:'All regions',
+						selectOnFocus:true,
+						editable: false,
+						valueField: 'id',
+						displayField: 'label' ,
+                		store: new Ext.data.ArrayStore({
+                			fields: ['id', 'label'],
+                			data: countryLookup ['regions']              		
+                			})
+                	
                 	}
-             
+                	
+                
+                	
+                	
+                	
                 	
                 	
                 	]
