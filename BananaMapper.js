@@ -563,8 +563,9 @@ Ext.onReady(function() {
                 visibility: false
 			},{*/
 			    source: "bioversity",
-                name: gs_workspace+":Country boundaries", //from Geoserver
+                name: gs_workspace+":country_boundaries", //from Geoserver
                 title: "Country Boundaries",
+				group: "background",
 				projection: "EPSG:4326",
 				tiled:false,
                 queryable: false,
@@ -589,11 +590,11 @@ Ext.onReady(function() {
                 projection: "EPSG:4326",
 				tiled:false,
                 queryable: false,
-				opacity: 0.5,
+				//opacity: 0.5,
 				visibility: true
             },{
 			//add production areas variables to view (for lookup and export functionality)
-                source: "bioversity",
+            /*    source: "bioversity",
                	name: gs_workspace+":System variables", //om PostGIS database new variables
                 title: "System Variables",
                 projection: "EPSG:4326",
@@ -601,7 +602,7 @@ Ext.onReady(function() {
                 queryable: false,
 				opacity: 0.5,
 				visibility: true
-            },{
+            },{*/
 				source: "google",
 				name: "ROADMAP",
 				group: "background",
@@ -611,13 +612,13 @@ Ext.onReady(function() {
 				name: "SATELLITE",
 				group: "background",
 				visibility: false
-			//},{
+			},{
 			//	Nice background map similar to Google but open source. Cant get it to be printed though, so removed
-            //    source: "mapquest",
-            //    name: "osm",
-            //     title: "Open Street Map",
-            //    group: "background",
-			//	projection:   "EPSG:900913"
+                source: "mapquest",
+                name: "osm",
+                 title: "Open Street Map",
+                group: "background",
+				projection:   "EPSG:900913"
 			}],
             items: [{
                 xtype: "gx_zoomslider",
