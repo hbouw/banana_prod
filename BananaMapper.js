@@ -6,6 +6,7 @@
 var app,combo,curArea;
 var login=false;
 var production_systemfilter="";
+var init = 0;
 
 //style for featureInfo highlight
 var featureInfoStyle = new OpenLayers.StyleMap({
@@ -20,7 +21,8 @@ var featureInfoStyle = new OpenLayers.StyleMap({
 Ext.onReady(function() {
 	lookups['cultivar_type'].push(["","All cultivars"]);
 	countryLookup['countries'].push(["",'All countries']);
-	 countryLookup['regions'].push(["",'All regions']);
+	countryLookup['regions'].push(["",'All regions']);
+	Ext.QuickTips.init();
 	
     app = new gxp.Viewer({
         proxy: "proxy.php?url=",
@@ -51,7 +53,7 @@ Ext.onReady(function() {
                 border: "true",
                 xtype: "tabpanel",
                 activeTab: 0, // choose tab 0 (map) to be visible on initialization
-                border: false,
+                border: true,
                 items: ["mymap", 
 					{title: "Help",padding:15,contentEl:'Help'},  
 					]
@@ -121,6 +123,18 @@ Ext.onReady(function() {
                 collapseMode: "mini",
             	collapsed: false,
                 width: 200,
+                // Listener to add tooltips on filters. First created tooltips to the gxpviewer.app ready event (see line ~640), but this stopped working for some reason.
+                listeners: {
+                	'tabchange': function(tabPanel, tab){
+                			if (init<2){
+     						Ext.QuickTips.register({ target: Ext.getCmp('pestsfilter').getEl(), text: 'Search for systems with occurring diseases' }); 
+							Ext.QuickTips.register({ target: Ext.getCmp('regionfilter').getEl(), text: 'Search for systems within regions' }); 
+							Ext.QuickTips.register({ target: Ext.getCmp('countryfilter').getEl(), text: 'Search for systems within countries' }); 
+							Ext.QuickTips.register({ target: Ext.getCmp('cultivarfilter').getEl(), text: 'Search for systems based on cultivar' }); 
+     						init ++;
+                			}
+                		}
+                	},
                 items: [
                 	{
                 	title: "Layers",
@@ -130,28 +144,29 @@ Ext.onReady(function() {
                                 width: "100%",
                                 layout: "fit"
                		},
-					items: 
-						[{
+					items: [
+						{
                 		id: "treepanel",
 						defaults: {
-						autoScroll:true
-						},
+							autoScroll:true
+							},
                 		border: false,
                 		flex: 1
-						},{
+						},
+						{
                 		id:"legendpanel",
-                		height:300,
-                                        defaults: {
-                                        autoScroll:true,
-                                        }
+                        defaults: {
+        	                autoScroll:true,
+                            },
+                        flex: 1,
+                        border:false
 						}]
 					}
 					,
                 	{
-                	title: "Filters",
-                	id: "accordionpanel",
-					layout: "vbox",
-					height:400,
+                	title: "Search",
+                	id: "searchpanel",
+					layout: "fit",
 					/*layoutConfig: {
 					titleCollapse: false,
         			animate: true,
@@ -162,31 +177,48 @@ Ext.onReady(function() {
 					autoScroll:true
 					},
                 	border: false,
-                	flex: 1,
                 	items:
                 	[
                 	{
-                		buttons: [{
-							text: 'Save',
-							handler: function()
-								{
-									var comboCult = Ext.getCmp("cultivarfilter");
-									processCultivarFilter(comboCult);
-									var comboCountry = Ext.getCmp("countryfilter");
-									processCountryFilter(comboCountry);									
-									var comboRegion = Ext.getCmp("regionfilter");
-									processRegionFilter(comboRegion);		
-									var comboPests = Ext.getCmp("pestsfilter");
-									processPestsFilter(	comboPests);
-									applyFilter();
-									
-									// clear filter
-									production_systemfilter="";
-		            			}
-       						},{
-            			text: 'Cancel'
-        				}]
-        			},
+                		title: "Countries",
+                		id: "countryfilter",
+                		xtype: "combo"	,
+                		typeAhead: true,
+						mode: 'local',
+						autowidth:false,
+						forceSelection: false,
+						triggerAction: 'all',
+						emptyText:'All countries',
+						selectOnFocus:true,
+						editable: false,
+						valueField: 'id',
+						displayField: 'label' ,
+                		store: new Ext.data.ArrayStore({
+                			fields: ['id', 'label'],
+                			data: countryLookup ['countries']              		
+                			})
+                	
+                	},
+                	{
+                		title: "Regions",
+                		id: "regionfilter",
+                		xtype: "combo"	,
+                		typeAhead: true,
+						mode: 'local',
+						forceSelection: false,
+						triggerAction: 'all',
+						emptyText:'All regions',
+						selectOnFocus:true,
+						editable: false,
+						valueField: 'id',
+						displayField: 'label' ,
+                		store: new Ext.data.ArrayStore({
+                			fields: ['id', 'label'],
+                			data: countryLookup ['regions']              		
+                			})
+                	
+                	},
+                	
                 	{
                 		title: "Cultivar Type",
                 		id: "cultivarfilter",
@@ -207,25 +239,6 @@ Ext.onReady(function() {
                 	}            	
                 	,
                 	{
-                		title: "Countries",
-                		id: "countryfilter",
-                		xtype: "combo"	,
-                		typeAhead: true,
-						mode: 'local',
-						forceSelection: false,
-						triggerAction: 'all',
-						emptyText:'All countries',
-						selectOnFocus:true,
-						editable: false,
-						valueField: 'id',
-						displayField: 'label' ,
-                		store: new Ext.data.ArrayStore({
-                			fields: ['id', 'label'],
-                			data: countryLookup ['countries']              		
-                			})
-                	
-                	},
-                	{
 						xtype: 'checkboxcombo',
 						id: "pestsfilter",
 						hiddenName: 'field_name',
@@ -238,96 +251,101 @@ Ext.onReady(function() {
 						displayField: 'label',
 						allowBlank: true,
 						emptyText: 'No pests and diseases'
-					},
-					{
-                		title: "Regions",
-                		id: "regionfilter",
-                		xtype: "combo"	,
-                		typeAhead: true,
-						mode: 'local',
-						forceSelection: false,
-						triggerAction: 'all',
-						emptyText:'All regions',
-						selectOnFocus:true,
-						editable: false,
-						valueField: 'id',
-						displayField: 'label' ,
-                		store: new Ext.data.ArrayStore({
-                			fields: ['id', 'label'],
-                			data: countryLookup ['regions']              		
-                			})
-                	
-                	}
-                	
-                
-                	
-                	
-                	
-                	
-                	
+					},	
+                	{
+                		buttons: [{
+                			id: 'applyfilter',
+							text: 'Apply',
+							handler: function()
+								{
+									var comboCult = Ext.getCmp("cultivarfilter");
+									processCultivarFilter(comboCult);
+									var comboCountry = Ext.getCmp("countryfilter");
+									processCountryFilter(comboCountry);									
+									var comboRegion = Ext.getCmp("regionfilter");
+									processRegionFilter(comboRegion);		
+									var comboPests = Ext.getCmp("pestsfilter");
+									processPestsFilter(	comboPests);
+									applyFilter();
+									// clear filter
+									production_systemfilter="";
+		            			}
+       						},{
+            			text: 'Reset',
+						handler: function()
+						{
+							production_systemfilter="";
+							Ext.getCmp("regionfilter").reset();
+							Ext.getCmp("pestsfilter").reset();
+							Ext.getCmp("countryfilter").reset();
+							Ext.getCmp("cultivarfilter").reset();
+							applyFilter();
+						}
+        				}]
+        			},
+        			{
+        			 title: "More search options",
+        			 xtype: 'panel',
+        			 collapsible: true,
+        			 id: 'moresearch',
+        			 layout:'fit' , 
+        			 items: [
+						 {
+							title: "Countries",
+							id: "countryfilter2",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							autowidth:false,
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All countries',
+							selectOnFocus:true,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: countryLookup ['countries']              		
+								})
+				
+						},
+						{
+							title: "Regions",
+							id: "regionfilter2",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All regions',
+							selectOnFocus:true,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: countryLookup ['regions']              		
+								})
+						}
+        			 
+        			 ]
+        			       			
+        			
+        			}
+        			
+        			
+        			
+        			
+        			
+        			
+        			
+        			    			
                 	]
                 	
-                	/*
-                	,
-                	items: 
-                		[{
-                		title: "Region",
-                		id:"regionfilter",
-						defaults: {
-						autoScroll:true,
-						},
-						border:false
-						},
-						{
-                		title: "Country",
-                		id:"countryfilter",
-						defaults: {
-						autoScroll:true,
-						},
-						border:false
-						},
-						{
-                		title: "Cultivar Type",
-                		id:"cultivarfilter",
-						defaults: {
-						autoScroll:true,
-						},
-						border:false
-						},
-						{
-                		title: "Pests and Diseases",
-                		id:"pestsfilter",
-						defaults: {
-						autoScroll:true,
-						},
-						border:false
-						},
-						{
-                		title: "Advanced Filters",
-                		id:"advancedfilters",
-                		layout: "accordion",
-						defaults: {
-						autoScroll:true,
-						},
-						border:false,						
-						items: 
-							[{
-							title: "Filter1",
-                			id:"filter1",
-							defaults: {
-							autoScroll:true,
-							},
-							border:false
-							},{
-							title: "Filter2",
-                			id:"filter2",
-							defaults: {
-							autoScroll:true,
-							},
-							border:false
-							}]
-						}]	
-                */}]
+                
+						
+						}]
                 },{
 //Insert a footer						
                 id: "footer",
@@ -345,14 +363,7 @@ Ext.onReady(function() {
             	region: "south",
             	height: 150
             }
-             	              
-              
 			},
-        
-    
-        
-
-       
         
 // Configuration of all tool plugins for this application
        tools: [{
@@ -369,10 +380,6 @@ Ext.onReady(function() {
          },{
 		   ptype: "gxp_addlayers", 
            actionTarget: "tree.tbar"
-         },{
-			xtype:"tbtext",
-			actionTarget: "map.tbar",
-			text: "Pietje"         
          },
          {
            ptype: "gxp_removelayer",
@@ -385,13 +392,11 @@ Ext.onReady(function() {
            actionTarget: "map.tbar",//add button 'zoom to extent' to the map.tbar
            index: 1
         },
-{
+		{
            ptype: "gxp_zoom",
            actionTarget: "map.tbar"    //add buttons 'zoom out' and 'zoom in' to the map.tbar
         },{
             ptype: "gxp_legend",
-			autoActivate: true,
-            actionTarget: "map.tbar",
 			outputTarget: "legendpanel"
 			
         },{	
@@ -490,6 +495,15 @@ Ext.onReady(function() {
             ptype: "downloadtool",
             actionTarget: "tree.contextMenu"
         },
+        
+        /*{
+        ptype:"gxp_zoomtolayerextent",
+        actionTarget: ["map.tbar", "tree.contextMenu"],
+        featureManager: "featuremanager",
+        autoActivate: true
+        
+        },*/
+        
 		{
        	    ptype: "gxp_queryform",
             featureManager: "featuremanager",
@@ -628,6 +642,7 @@ Ext.onReady(function() {
                 ready: function () {
                     //add higlight layer
                     app.mapPanel.map.addLayer(new OpenLayers.Layer.Vector("highlightLayer", { styleMap: featureInfoStyle, displayInLayerSwitcher: false }));
+					//Ext.QuickTips.register({ target: Ext.getCmp('pestsfilter').getEl(), text: 'Choose the active layer for search and query' }); 
 					}
 				}
     });
