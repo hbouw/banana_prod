@@ -22,7 +22,41 @@ Ext.onReady(function() {
 	lookups['cultivar_type'].push(["","All cultivars"]);
 	countryLookup['countries'].push(["",'All countries']);
 	countryLookup['regions'].push(["",'All regions']);
+	lookups['yield_tendency5'].push(["-9999","No data"]);	
+	lookups['production_tendency5'].push(["-9999","No data"]);	
+	lookups['production_tendency5'].push(["*","All selected"]);	
+	lookups['yield_tendency5'].push(["*","All selected"]);	
+	lookups['use'].push(["-9999","No data"]);
+	lookups['use'].push(["*","All selected"]);
+	lookups['irrigation'].forEach(function(item){
+			item[0]++;
+	});
+	lookups['herbicides'].forEach(function(item){
+			item[0]++;
+	});
+	lookups['fungicides'].forEach(function(item){
+			item[0]++;
+	});
+	lookups['irrigation'].push(["-9999","No data"]);
+	lookups['irrigation'].push(["","All selected"]);
+	lookups['herbicides'].push(["-9999","No data"]);
+	lookups['herbicides'].push(["","All selected"]);
+	lookups['fungicides'].push(["-9999","No data"]);
+	lookups['fungicides'].push(["","All selected"]);
+	// change 0 value into 2, otherwise causes problems with default value combobox
+	lookups['yield_tendency5'][1][0]=2;
+	lookups['production_tendency5'][1][0]=2;
+	
+
+
 	Ext.QuickTips.init();
+	
+	var tip = new Ext.slider.Tip({
+        getText: function(thumb){
+            return String.format('<b>Value={0}</b>', thumb.value);
+        }
+    });
+	
 	
     app = new gxp.Viewer({
         proxy: "proxy.php?url=",
@@ -166,7 +200,7 @@ Ext.onReady(function() {
                 	{
                 	title: "Search",
                 	id: "searchpanel",
-					layout: "fit",
+					layout: "vbox",
 					/*layoutConfig: {
 					titleCollapse: false,
         			animate: true,
@@ -180,79 +214,269 @@ Ext.onReady(function() {
                 	items:
                 	[
                 	{
-                		title: "Countries",
-                		id: "countryfilter",
-                		xtype: "combo"	,
-                		typeAhead: true,
-						mode: 'local',
-						autowidth:false,
-						forceSelection: false,
-						triggerAction: 'all',
-						emptyText:'All countries',
-						selectOnFocus:true,
-						editable: false,
-						valueField: 'id',
-						displayField: 'label' ,
-                		store: new Ext.data.ArrayStore({
-                			fields: ['id', 'label'],
-                			data: countryLookup ['countries']              		
-                			})
+        			 title: "Simple search",
+        			 xtype: 'panel',
+        			 width:'100%',
+        			 collapsible: false,
+        			 id: 'search',
+        			 items: [
                 	
-                	},
-                	{
-                		title: "Regions",
-                		id: "regionfilter",
-                		xtype: "combo"	,
-                		typeAhead: true,
-						mode: 'local',
-						forceSelection: false,
-						triggerAction: 'all',
-						emptyText:'All regions',
-						selectOnFocus:true,
-						editable: false,
-						valueField: 'id',
-						displayField: 'label' ,
-                		store: new Ext.data.ArrayStore({
-                			fields: ['id', 'label'],
-                			data: countryLookup ['regions']              		
-                			})
-                	
-                	},
-                	
-                	{
-                		title: "Cultivar Type",
-                		id: "cultivarfilter",
-                		xtype: "combo",
-                		store: new Ext.data.ArrayStore({
-							fields: ['id', 'label'],
-							data : lookups['cultivar_type'],						
-						}),
-						typeAhead: true,
-						mode: 'local',
-						forceSelection: false,
-						triggerAction: 'all',
-						emptyText:'All cultivars',
-						selectOnFocus:true,
-						editable: false,
-						valueField: 'id',
-						displayField: 'label' 
-                	}            	
-                	,
-                	{
-						xtype: 'checkboxcombo',
-						id: "pestsfilter",
-						hiddenName: 'field_name',
-						fieldLabel: 'Field Label',
-						store:new Ext.data.ArrayStore({
-							fields: ['id', 'label'],
-							data : pestsLookups['pest_diseases']
-						}) ,
-						valueField: 'id',
-						displayField: 'label',
-						allowBlank: true,
-						emptyText: 'No pests and diseases'
-					},	
-                	{
+						{
+							title: "Countries",
+							id: "countryfilter",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							width: 196,
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All countries',
+							selectOnFocus:true,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: countryLookup ['countries']              		
+								})
+					
+						},
+						{
+							title: "Regions",
+							id: "regionfilter",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							width: 196,
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All regions',
+							selectOnFocus:true,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: countryLookup ['regions']              		
+								})
+					
+						},
+						{
+							title: "Cultivar Type",
+							id: "cultivarfilter",
+							xtype: "combo",
+							width: 196,
+
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data : lookups['cultivar_type'],						
+							}),
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All cultivars',
+							selectOnFocus:true,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' 
+						}            	,
+						{
+							xtype: 'checkboxcombo',
+							id: "pestsfilter",
+							hiddenName: 'field_name',
+														width: 196,
+
+							fieldLabel: 'Field Label',
+							store:new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data : pestsLookups['pest_diseases']
+							}) ,
+							valueField: 'id',
+							displayField: 'label',
+							allowBlank: true,
+							emptyText: 'No pests and diseases'
+						}	
+						]
+        			},
+        			{
+        			 title: "More search options",
+        			 xtype: 'panel',
+        			 collapsible: false,
+        			 width: '100%',
+        			 layout: 'fit',
+        			 id: 'moresearch',
+        			 items: [
+						 {
+							title: "Yield tendency (past 5 years)",
+							id: "yieldtendency",
+							xtype: "combo"	,
+							width: 196,	
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All selected',
+							selectOnFocus:true,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: lookups ['yield_tendency5']              		
+								}),
+								
+				
+						},
+						{
+							title: "Production tendency (past 5 years)",
+							id: "productiontendency",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All selected',
+							selectOnFocus:true,
+							width: 196,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: lookups ['production_tendency5']              		
+								})
+						},
+						{
+							title: "Primary use Musa",
+							id: "primaryusemusa",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All selected',
+							selectOnFocus:true,
+							width: 196,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: lookups ['use']              		
+								})
+						},
+						{
+							title: "Use of irrigation",
+							id: "irrigation",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All selected',
+							selectOnFocus:true,
+							width: 196,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: lookups ['irrigation']              		
+								})
+						},
+						{
+							title: "Use of herbicides",
+							id: "herbicides",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All selected',
+							selectOnFocus:true,
+							width: 196,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: lookups ['herbicides']              		
+								})
+						}
+						,
+						{
+							title: "Use of fungicides",
+							id: "fungicides",
+							xtype: "combo"	,
+							typeAhead: true,
+							mode: 'local',
+							forceSelection: false,
+							triggerAction: 'all',
+							emptyText:'All selected',
+							selectOnFocus:true,
+							width: 196,
+							editable: false,
+							valueField: 'id',
+							displayField: 'label' ,
+							store: new Ext.data.ArrayStore({
+								fields: ['id', 'label'],
+								data: lookups ['fungicides']              		
+								})
+						},
+						{
+						xtype: 'label', 
+                        text: 'Musa density (mats/ha)',
+                        style: 'font-size:12px; font-weight:bold; padding:5px;'
+						},
+						/*{
+							title: "Density",
+							id: "densityfilter",
+							xtype: "multislider",
+							minvalue: 0,
+							maxvalue: 100,
+							increment: 10,
+							values: [20,80],
+							fieldlabel: "Musa density (mats/ha)",
+							plugins : tip
+							
+						},*/
+						{
+						xtype: 'label', 
+                        text: 'Total production (ton/ha)',
+                        style: 'font-size:12px; font-weight:bold; padding:5px;'
+						},
+						{
+							title: "Production",
+							id: "productionfilter",
+							xtype: "multislider",
+							minvalue: 0,
+							maxvalue: 100,
+							increment: 10,
+							values: [1000, 5000],
+							plugins : tip
+							
+						},
+						{
+							title: "Production",
+							id: "productionmax",
+							xtype: "textfield",
+							value: totalprodMax
+						}
+
+        			 
+        			 ]
+        			       			
+        			
+        			},
+        			{
+        			 title: "Apply filters",
+        			 xtype: 'panel',
+        			 collapsible: false,
+        			 width: '100%',
+        			 id: 'applyfilters',
+        			 items: [
+        			{
                 		buttons: [{
                 			id: 'applyfilter',
 							text: 'Apply',
@@ -266,6 +490,19 @@ Ext.onReady(function() {
 									processRegionFilter(comboRegion);		
 									var comboPests = Ext.getCmp("pestsfilter");
 									processPestsFilter(	comboPests);
+									var comboYield = Ext.getCmp("yieldtendency");
+									processYieldFilter(comboYield);
+									var comboProduction = Ext.getCmp("productiontendency");
+									processProductFilter(comboProduction);
+									var comboUse = Ext.getCmp("primaryusemusa");
+									processUseFilter(comboUse);
+									var comboIrrigation = Ext.getCmp("irrigation");
+									processIrrigationFilter(comboIrrigation);	
+									var comboHerbicides = Ext.getCmp("herbicides");
+									processHerbicidesFilter(comboHerbicides);
+									var comboFungicides = Ext.getCmp("fungicides");
+									processFungicidesFilter (comboFungicides);
+									console.log(production_systemfilter);
 									applyFilter();
 									// clear filter
 									production_systemfilter="";
@@ -282,58 +519,7 @@ Ext.onReady(function() {
 							applyFilter();
 						}
         				}]
-        			},
-        			{
-        			 title: "More search options",
-        			 xtype: 'panel',
-        			 collapsible: true,
-        			 id: 'moresearch',
-        			 layout:'fit' , 
-        			 items: [
-						 {
-							title: "Countries",
-							id: "countryfilter2",
-							xtype: "combo"	,
-							typeAhead: true,
-							mode: 'local',
-							autowidth:false,
-							forceSelection: false,
-							triggerAction: 'all',
-							emptyText:'All countries',
-							selectOnFocus:true,
-							editable: false,
-							valueField: 'id',
-							displayField: 'label' ,
-							store: new Ext.data.ArrayStore({
-								fields: ['id', 'label'],
-								data: countryLookup ['countries']              		
-								})
-				
-						},
-						{
-							title: "Regions",
-							id: "regionfilter2",
-							xtype: "combo"	,
-							typeAhead: true,
-							mode: 'local',
-							forceSelection: false,
-							triggerAction: 'all',
-							emptyText:'All regions',
-							selectOnFocus:true,
-							editable: false,
-							valueField: 'id',
-							displayField: 'label' ,
-							store: new Ext.data.ArrayStore({
-								fields: ['id', 'label'],
-								data: countryLookup ['regions']              		
-								})
-						}
-        			 
-        			 ]
-        			       			
-        			
-        			}
-        			
+        			}]}
         			
         			
         			
@@ -408,13 +594,15 @@ Ext.onReady(function() {
         },{  	
 		   ptype: "gxp_wmsgetfeatureinfo",	//add button to get info of feature pointed at
             actionTarget: "map.tbar",
-			//autoActivate: true,			ToDo at startup this function needs to be on!
+			//autoActivate: true,			//ToDo at startup this function needs to be on!
 			format: "grid",
             outputConfig: {
                 width: 350,
-                height: 200
+                height: 200,
+
             	},
             itemConfig: {
+            		
 					//replace field area_id with a link to view production systems
             		customRenderers: {
 						area_id:function(v) { 
@@ -427,7 +615,8 @@ Ext.onReady(function() {
 			listeners: {
 				render: function (title, feature, config){
 					addHighlight(feature);
-				} 
+				}
+				
 			}
         },{
         	//define snapping agent to snap new feature borders to existing borders 
@@ -652,6 +841,9 @@ Ext.onReady(function() {
 var store;
 var currentAreaFilter = "";
 Ext.onReady(function(){
+ 
+ 
+ 
  
 //The datarecord to hold prodsys, used by reader 
  var Area = Ext.data.Record.create([
@@ -1043,6 +1235,71 @@ function processPestsFilter(comboBox){
 	}
 }
 
+
+function processYieldFilter(comboBox){
+	var comboVal = comboBox.getValue();	
+	if (comboVal!="" | comboVal!=0){
+		if (comboVal==2){comboVal=0;}
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+		production_systemfilter += "yield_tendency5='" + comboVal + "'";
+	}
+}
+
+function processProductFilter(comboBox){
+	var comboVal = comboBox.getValue();	
+	if (comboVal!="" | comboVal!=0){
+		if (comboVal==2){comboVal=0;}
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+		production_systemfilter += "production_tendency5='" + comboVal + "'";
+	}
+}
+
+function processUseFilter(comboBox){
+	var comboVal = comboBox.getValue();	
+	if (comboVal!="" | comboVal!=0){
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+		production_systemfilter += "use='" + comboVal + "'";
+	}
+}
+
+function processIrrigationFilter(comboBox){
+	var comboVal = comboBox.getValue();	
+	if (comboVal!="" | comboVal!=0){
+		if (comboVal!=-9999){comboVal --;}
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+		production_systemfilter += "use='" + comboVal + "'";
+	}
+}
+
+function processHerbicidesFilter(comboBox){
+	var comboVal = comboBox.getValue();	
+	if (comboVal!="" | comboVal!=0){
+		if (comboVal!=-9999){comboVal --;}
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+		production_systemfilter += "use='" + comboVal + "'";
+	}
+}
+
+function processFungicidesFilter(comboBox){
+	var comboVal = comboBox.getValue();	
+	if (comboVal!="" | comboVal!=0){
+		if (comboVal!=-9999){comboVal --;}
+		if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+		production_systemfilter += "use='" + comboVal + "'";
+	}
+}
 
 
 
