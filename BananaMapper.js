@@ -424,12 +424,12 @@ Ext.onReady(function() {
 								data: lookups ['fungicides']              		
 								})
 						},
-						{
+						/*{
 						xtype: 'label', 
                         text: 'Musa density (mats/ha)',
                         style: 'font-size:12px; font-weight:bold; padding:5px;'
 						},
-						/*{
+						{
 							title: "Density",
 							id: "densityfilter",
 							xtype: "multislider",
@@ -440,7 +440,7 @@ Ext.onReady(function() {
 							fieldlabel: "Musa density (mats/ha)",
 							plugins : tip
 							
-						},*/
+						},
 						{
 						xtype: 'label', 
                         text: 'Total production (ton/ha)',
@@ -456,13 +456,55 @@ Ext.onReady(function() {
 							values: [1000, 5000],
 							plugins : tip
 							
-						},
-						{
-							title: "Production",
-							id: "productionmax",
-							xtype: "textfield",
-							value: totalprodMax
-						}
+						},*/
+						
+						
+							{
+							xtype: 'label', 
+							text: 'Production minimum (ton)',
+							style: 'font-size:12px; font-weight:bold; padding:5px;',
+							width: 196
+							},
+							{
+								title: "Production Minimum",
+								id: "productionmin",
+								xtype: "textfield",
+								value: totalprodMin,
+								width: 196,
+
+								regex:/^([0-9])/,
+								validator: function(v) {
+
+									return true;
+							
+								
+								}
+							},
+							{
+							xtype: 'label', 
+							width: 196,
+
+							text: 'Production maximum (ton)',
+							style: 'font-size:12px; font-weight:bold; padding:5px;'
+							},
+							{
+								title: "Production Maximum",
+								id: "productionmax",
+								xtype: "textfield",
+								value: totalprodMax,
+								width: 196,
+
+								regex:/^([0-9])/,
+								validator: function(v) {
+															
+									return true;
+								
+								}
+							}
+						
+						
+						
+						
 
         			 
         			 ]
@@ -502,7 +544,11 @@ Ext.onReady(function() {
 									processHerbicidesFilter(comboHerbicides);
 									var comboFungicides = Ext.getCmp("fungicides");
 									processFungicidesFilter (comboFungicides);
-									console.log(production_systemfilter);
+									var fieldmin = Ext.getCmp("productionmin");
+									var fieldmax = Ext.getCmp("productionmax");
+									console.log(fieldmin);
+									processTotalProd(fieldmin, fieldmax);
+//									console.log(production_systemfilter);
 									applyFilter();
 									// clear filter
 									production_systemfilter="";
@@ -1299,6 +1345,26 @@ function processFungicidesFilter(comboBox){
 		}		
 		production_systemfilter += "use='" + comboVal + "'";
 	}
+}
+
+
+
+function processTotalProd(textfieldMin, textfieldMax){
+	var max = textfieldMax.getValue();
+	var min = textfieldMin.getValue();
+	
+	
+	
+	if (min!=totalprodMin | max!=totalprodMax){
+	if (production_systemfilter !=""){
+			production_systemfilter += " and ";
+		}		
+	production_systemfilter += "total_prod > " + min + " AND total_prod < "+max;
+	
+	console.log(production_systemfilter);
+	}
+	
+	
 }
 
 
