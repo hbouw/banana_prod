@@ -139,18 +139,28 @@ Ext.ux.DownloadTool = Ext.extend(gxp.plugins.Tool, {
 						handler: function (frm,a) 
 							{
 							//TODO: apply app-filter
+							console.log("#######");
+							console.log(production_systemfilter);
 							var frmt=Ext.getCmp('downloadFormatCombo').getValue();
 							var vbox=Ext.getCmp('downloadBoundsCombo').getValue();
 							if (vbox=="current") vbox = app.mapPanel.map.getExtent().toString();
 							if (vbox == "") vbox="-180,-90,180,90";
 							if (frmt != ""){
 								if (frmt=='SHAPE-ZIP'||frmt=='CSV'){ //these are wfs-formats, others wms
-									location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&maxFeatures=2500&outputFormat='+frmt;
-								} else {
+    								if (production_systemfilter!=""){
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
+    								} else{
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&maxFeatures=2500&outputFormat='+frmt;
+    								}
+									} else {
 									//should recalculate image size to bounds size
 									var bnds = vbox.split(',');
 									var hght = Math.floor(2000/(bnds[2]-bnds[0])*(bnds[3]-bnds[1]));
+									if (production_systemfilter!=""){
+									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+"&cql_filter="+production_systemfilter+'&srs=EPSG:4326&format='+frmt;
+									} else{
 									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+'&srs=EPSG:4326&format='+frmt;
+									}
 								}
 								Ext.get(Ext.query(".x-window")[1]).hide();
 							} else alert('Select a download format first');
