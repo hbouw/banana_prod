@@ -145,7 +145,7 @@ include('config.php');
 		echo "]};";
 		
 		// Query min and max of total_prod
-		$sqlprod = "select max(total_prod) as max_prod, min(total_prod) as min_prod from banana_systems where total_prod<>-9999";
+		$sqlprod = "select COALESCE(max(total_prod),0) as max_prod, COALESCE(min(total_prod),0) as min_prod from banana_systems where total_prod<>-9999";
 		$resultprod = pg_query($dbh, $sqlprod);   
 		 if (!$resultprod) {
 			 die("Error in SQL query: " . pg_last_error());
