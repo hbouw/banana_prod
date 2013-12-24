@@ -15,6 +15,7 @@ include('config.php');
         <link rel="stylesheet" type="text/css" href="script/gxp/externals/ext-3.4.0/resources/css/ext-all.css" />
         <link rel="stylesheet" type="text/css" href="script/gxp/externals/ext-3.4.0/resources/css/xtheme-gray.css" />
         <link rel="stylesheet" type="text/css" href="script/Ext.ux.form.CheckboxCombo.min.css" />
+        
 		<?php 
 		//if (DEBUG) {
 		//	echo "<script src=\"script/gxp/externals/ext-3.4.0/adapter/ext/ext-base-debug.js\"></script>";
@@ -22,6 +23,7 @@ include('config.php');
 		//} else {
 			echo "<script src=\"script/gxp/externals/ext-3.4.0/adapter/ext/ext-base.js\"></script>";
 			echo "<script src=\"script/gxp/externals/ext-3.4.0/ext-all.js\"></script>";	
+			echo "<script src=\"script/proj4js.js\"></script>";	
 		//}
 		?>
 		<!--OpenLayers -->
@@ -157,10 +159,6 @@ include('config.php');
 		 }
 		 
 		 
-		
-		
-		
-		
 		// Query the pests and diseases
 		$sqlpests= "select * from diseases ORDER BY nameneat ASC";
 		$firstLkp = true;

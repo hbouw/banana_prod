@@ -139,18 +139,18 @@ Ext.ux.DownloadTool = Ext.extend(gxp.plugins.Tool, {
 						handler: function (frm,a) 
 							{
 							//TODO: apply app-filter
-							console.log("#######");
-							console.log(production_systemfilter);
 							var frmt=Ext.getCmp('downloadFormatCombo').getValue();
 							var vbox=Ext.getCmp('downloadBoundsCombo').getValue();
-							if (vbox=="current") vbox = app.mapPanel.map.getExtent().toString();
+							if (vbox=="current"){
+							vbox = app.mapPanel.map.getExtent().transform("EPSG:3857","EPSG:4326").toString();
+							}
 							if (vbox == "") vbox="-180,-90,180,90";
 							if (frmt != ""){
 								if (frmt=='SHAPE-ZIP'||frmt=='CSV'){ //these are wfs-formats, others wms
     								if (production_systemfilter!=""){
-    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
     								} else{
-    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&maxFeatures=2500&outputFormat='+frmt;
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&maxFeatures=2500&outputFormat='+frmt;
     								}
 									} else {
 									//should recalculate image size to bounds size
@@ -162,13 +162,13 @@ Ext.ux.DownloadTool = Ext.extend(gxp.plugins.Tool, {
 									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+'&srs=EPSG:4326&format='+frmt;
 									}
 								}
-								Ext.get(Ext.query(".x-window")[1]).hide();
+								Ext.get(Ext.query(".x-window")).hide();
 							} else alert('Select a download format first');
 							}
 						},{
 						text:'Cancel',
 						handler: function(form,action){
-							Ext.get(Ext.query(".x-window")[1]).hide(); //0 is page itself todo: get proper handle and close it
+							Ext.get(Ext.query(".x-window")).hide(); //0 is page itself todo: get proper handle and close it
 							}
 						}]
 				}],

@@ -251,7 +251,6 @@ gxp.AreaPropertyGrid = Ext.extend(Ext.grid.PropertyGrid, {
             msg: "Are you sure you want to remove this production system?",
             buttons: Ext.Msg.YESNO,
             fn: function(button) {
-                if(button === "yes") {console.log(this.getSource());
 					Ext.Ajax.request({
 						url:"DeletePS.php",
 						params: {

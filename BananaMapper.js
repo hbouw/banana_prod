@@ -219,7 +219,7 @@ Ext.onReady(function() {
                 	items:
                 	[
                 	{
-        			 title: "Simple search",
+        			 title: "Search options",
         			 xtype: 'panel',
         			 width:'100%',
         			 collapsible: false,
@@ -252,17 +252,9 @@ Ext.onReady(function() {
     								if (item=="All countries" | item==""){
     									Ext.getCmp("countryfilter").setValue("All countries");
     								}
-    								
-    							
-    							
     							});
-    							
-    							
-    							
-    							
     							}
   							}
-							
 						},
 						{
 							title: "Regions",
@@ -346,24 +338,10 @@ Ext.onReady(function() {
 									Ext.getCmp("pestsfilter").setValue("No pests and diseases");
 								}
 							});
-					
 						}}
-							
-							
-						}	
+						}
 						
-						
-						
-						]
-        			},
-        			{
-        			 title: "More search options",
-        			 xtype: 'panel',
-        			 collapsible: false,
-        			 width: '100%',
-        			 layout: 'fit',
-        			 id: 'moresearch',
-        			 items: [
+        			,
 						 {
 							title: "Yield tendency (past 5 years)",
 							id: "yieldtendency",
@@ -539,45 +517,10 @@ Ext.onReady(function() {
 							}
 							}
 						},
-						/*{
-						xtype: 'label', 
-                        text: 'Musa density (mats/ha)',
-                        style: 'font-size:12px; font-weight:bold; padding:5px;'
-						},
-						{
-							title: "Density",
-							id: "densityfilter",
-							xtype: "multislider",
-							minvalue: 0,
-							maxvalue: 100,
-							increment: 10,
-							values: [20,80],
-							fieldlabel: "Musa density (mats/ha)",
-							plugins : tip
-							
-						},
-						{
-						xtype: 'label', 
-                        text: 'Total production (ton/ha)',
-                        style: 'font-size:12px; font-weight:bold; padding:5px;'
-						},
-						{
-							title: "Production",
-							id: "productionfilter",
-							xtype: "multislider",
-							minvalue: 0,
-							maxvalue: 100,
-							increment: 10,
-							values: [1000, 5000],
-							plugins : tip
-							
-						},*/
-						
-						
 							{
 							xtype: 'label', 
 							text: 'Production minimum (ton)',
-							style: 'font-size:12px; font-weight:bold; padding:5px;',
+							style: 'font-size:11px; padding:5px;',
 							width: 196
 							},
 							{
@@ -589,10 +532,7 @@ Ext.onReady(function() {
 
 								regex:/^([0-9])/,
 								validator: function(v) {
-
 									return true;
-							
-								
 								}
 							},
 							{
@@ -600,7 +540,7 @@ Ext.onReady(function() {
 							width: 196,
 
 							text: 'Production maximum (ton)',
-							style: 'font-size:12px; font-weight:bold; padding:5px;'
+							style: 'font-size:11px; padding:5px;'
 							},
 							{
 								title: "Production Maximum",
@@ -613,22 +553,14 @@ Ext.onReady(function() {
 								validator: function(v) {
 															
 									return true;
-								
 								}
 							}
-						
-						
-						
-						
-
-        			 
-        			 ]
-        			       			
-        			
+        			 ]     			
         			},
         			{
         			 title: "Apply filters",
         			 xtype: 'panel',
+        			 id: 'applyfilters',
         			 collapsible: false,
         			 width: '100%',
         			 id: 'applyfilters',
@@ -684,7 +616,8 @@ Ext.onReady(function() {
 							Ext.getCmp("yieldtendency").reset();
 							applyFilter();
 						}
-        				}]
+        				}
+        				]
         			}]},
         			{
         			 xtype: 'panel',
@@ -1362,7 +1295,6 @@ function processCultivarFilter(comboBox){
 				production_systemfilter += " AND ";
 			}
 			production_systemfilter += filters;
-			console.log(production_systemfilter);
 }}
 
 function processCountryFilter(comboBox){
@@ -1427,7 +1359,6 @@ function processPestsFilter(comboBox){
 			production_systemfilter += " AND ";
 		}			
 		production_systemfilter += filter;
-		console.log(production_systemfilter);
 	}
 }
 
@@ -1467,7 +1398,6 @@ function processUseFilter(comboBox){
 function processIrrigationFilter(comboBox){
 	var comboVal = comboBox.getValue();	
 	if (comboVal!="" && comboVal!="*"){
-		console.log(comboVal);
 		if (comboVal!=-9999){comboVal --;}
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
@@ -1511,8 +1441,6 @@ function processTotalProd(textfieldMin, textfieldMax){
 			production_systemfilter += " and ";
 		}		
 	production_systemfilter += "total_prod > " + min + " AND total_prod < "+max;
-	
-	console.log(production_systemfilter);
 	}
 	
 	
