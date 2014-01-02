@@ -698,7 +698,7 @@ Ext.onReady(function() {
 			format: "grid",
             outputConfig: {
                 width: 350,
-                height: 200,
+                height: 150,
 
             	},
             itemConfig: {
