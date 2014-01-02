@@ -53,7 +53,7 @@ if ($data->fus_race2) $sql .= "fus_race2 = '".$data->fus_race2."',";
 if ($data->fus_race4) $sql .= "fus_race4 = '".$data->fus_race4."',";
 if ($data->fus_subtrop4) $sql .= "fus_subtrop4 = '".$data->fus_subtrop4."',";
 if ($data->other_fungal) $sql .= "other_fungal = '".$data->other_fungal."',";
-if ($data->other_fungal_im) $sql .= "other_fungal_im = '".$data->other_fungal_im."',";
+if ($data->oth_fungal_im) $sql .= "other_fungal_im = '".$data->oth_fungal_im."',";
 if ($data->bbtv) $sql .= "bbtv = '".$data->bbtv."',";
 if ($data->bsv) $sql .= "bsv = '".$data->bsv."',";
 if ($data->other_virus) $sql .= "other_virus = '".$data->other_virus."',";

@@ -933,7 +933,7 @@ Ext.onReady(function(){
 		{name:'fus_race4',type: 'string'}, 
 		{name:'fus_subtrop4',type: 'string'}, 
 		{name:'other_fungal',type: 'string'},
-		{name:'other_fungal_im',type: 'string'},
+		{name:'oth_fungal_im',type: 'string'},
 		{name:'bbtv',type: 'string'}, 
 		{name:'bsv',type: 'string'}, 
 		{name:'other_virus',type: 'string'},
@@ -982,7 +982,7 @@ Ext.onReady(function(){
 	writer: dWriter, 
     root: 'areas',
     fields: [
-			'area_id','cultivar_type','cultivar_name','association','other_cult','area_product','yield','total_prod','density','number_hh','use','production_tendency5','yield_tendency5','inputs','irrigation','chem_fert','org_fert','herbicides','fungicides','nematicides','insecticides','p_goodeyi','p_coffea','r_similis','meloidogyne','h_multici','moko_bugtok','bxw','blood_disease','erwinia','other_bac_dis','oth_bacdis_im','stem_weevil','corm_weevil','black_streak','yel_sigatoka','eumusae','other_leaf_dis','oth_leafdis_im','fus_race1','fus_race2','fus_race4','fus_subtrop4','other_fungal','other_fungal_im','bbtv','bsv','other_virus','oth_virus_im'
+			'area_id','cultivar_type','cultivar_name','association','other_cult','area_product','yield','total_prod','density','number_hh','use','production_tendency5','yield_tendency5','inputs','irrigation','chem_fert','org_fert','herbicides','fungicides','nematicides','insecticides','p_goodeyi','p_coffea','r_similis','meloidogyne','h_multici','moko_bugtok','bxw','blood_disease','erwinia','other_bac_dis','oth_bacdis_im','stem_weevil','corm_weevil','black_streak','yel_sigatoka','eumusae','other_leaf_dis','oth_leafdis_im','fus_race1','fus_race2','fus_race4','fus_subtrop4','other_fungal','oth_fungal_im','bbtv','bsv','other_virus','oth_virus_im'
 			],
 			listeners: {
 				load: {
@@ -1027,7 +1027,7 @@ Ext.onReady(function(){
 									'fus_race2': function(v){ return getLookup("fus_race2",v) },
 									'fus_race4': function(v){ return getLookup("fus_race4",v) },
 									'fus_subtrop4': function(v){ return getLookup("fus_subtrop4",v) },
-									'other_fungal_im': function(v){ return getLookup("other_fungal_im",v) },
+									'oth_fungal_im': function(v){ return getLookup("oth_fungal_im",v) },
 									'bbtv': function(v){ return getLookup("bbtv",v) },
 									'bsv': function(v){ return getLookup("bsv",v) },
 									'yield_tendency5': function(v){ return getLookup("yield_tendency5",v) },
@@ -1066,11 +1066,11 @@ Ext.onReady(function(){
 									'fus_race2': getEditor('fus_race2'),
 									'fus_race4': getEditor('fus_race4'),
 									'fus_subtrop4': getEditor('fus_subtrop4'),
-									'other_fungal_im': getEditor('other_fungal_im'),
+									'oth_fungal_im': getEditor('oth_fungal_im'),
 									'bbtv': getEditor('bbtv'),
 									'bsv': getEditor('bsv'),
-									'yield_tendency5': getEditor("yield_tendency5"),
-									'production_tendency5': getEditor("production_tendency5") ,
+									'yield_tendency5': getEditor('yield_tendency5'),
+									'production_tendency5': getEditor('production_tendency5') ,
 									'oth_virus_im': getEditor('oth_virus_im')
 								},
 								//custom field headers
@@ -1116,13 +1116,13 @@ Ext.onReady(function(){
 									'fus_race4':		'Importance Foc TR 4',
 									'fus_subtrop4':		'Importance Foc STR 4',
 									'other_fungal':		'Name other fungal diseases',	
-									'other_fungal_im':  'Impact other fungal diseases',
+									'oth_fungal_im':  	'Impact other fungal diseases',
 									'bbtv':				'Importance BBTV',
 									'bsv':				'Importance BSV',
 									'other_virus':		'Name other virus',
 									'oth_virus_im':		'Impact other virus',
-									'yield_tendency5':  'Tendency in yield in past 5 years',
-									'production_tendency5': 'Tendency in production area in past 5 years'
+									'yield_tendency5':  'Yield tendency past 5 years',
+									'production_tendency5': 'Production tendency past 5 years'
 									
 								}
 							});
