@@ -1036,7 +1036,7 @@ Ext.onReady(function(){
 	writer: dWriter, 
     root: 'areas',
     fields: [
-			'area_id','cultivar_type','cultivar_name','association','other_cult','area_product','yield','total_prod','density','number_hh','use','production_tendency5','yield_tendency5','inputs','irrigation','chem_fert','org_fert','herbicides','fungicides','nematicides','insecticides','p_goodeyi','p_coffea','r_similis','meloidogyne','h_multici','moko_bugtok','bxw','blood_disease','erwinia','other_bac_dis','oth_bacdis_im','stem_weevil','corm_weevil','black_streak','yel_sigatoka','eumusae','other_leaf_dis','oth_leafdis_im','fus_race1','fus_race2','fus_race4','fus_subtrop4','other_fungal','oth_fungal_im','bbtv','bsv','other_virus','oth_virus_im'
+			'id','area_id','cultivar_type','cultivar_name','association','other_cult','area_product','yield','total_prod','density','number_hh','use','production_tendency5','yield_tendency5','inputs','irrigation','chem_fert','org_fert','herbicides','fungicides','nematicides','insecticides','p_goodeyi','p_coffea','r_similis','meloidogyne','h_multici','moko_bugtok','bxw','blood_disease','erwinia','other_bac_dis','oth_bacdis_im','stem_weevil','corm_weevil','black_streak','yel_sigatoka','eumusae','other_leaf_dis','oth_leafdis_im','fus_race1','fus_race2','fus_race4','fus_subtrop4','other_fungal','oth_fungal_im','bbtv','bsv','other_virus','oth_virus_im'
 			],
 			listeners: {
 				load: {
