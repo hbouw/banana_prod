@@ -1,8 +1,5 @@
 //This is the Banana Mapper. It is based on viewer.js and was edited from there
 
- 
-
-
 var app,combo,curArea;
 var login=false;
 var production_systemfilter="";
@@ -19,9 +16,10 @@ var featureInfoStyle = new OpenLayers.StyleMap({
 });
 
 Ext.onReady(function() {
-	lookups['cultivar_type'].push(["","All cultivars"]);
-	countryLookup['countries'].push(["",'All countries']);
-	countryLookup['regions'].push(["",'All regions']);
+	pestsLookups['pest_diseases'].push(["No pests and diseases","No pests and diseases"]);
+	lookups['cultivar_type'].push(["All cultivars","All cultivars"]);
+	countryLookup['regions'].push(["All regions",'All regions']);
+	countryLookup['countries'].push(["All countries",'All countries']);
 	lookups['yield_tendency5'].push(["-9999","No data"]);	
 	lookups['production_tendency5'].push(["-9999","No data"]);	
 	lookups['production_tendency5'].push(["*","All selected"]);	
@@ -38,11 +36,11 @@ Ext.onReady(function() {
 			item[0]++;
 	});
 	lookups['irrigation'].push(["-9999","No data"]);
-	lookups['irrigation'].push(["","All selected"]);
+	lookups['irrigation'].push(["*","All selected"]);
 	lookups['herbicides'].push(["-9999","No data"]);
-	lookups['herbicides'].push(["","All selected"]);
+	lookups['herbicides'].push(["*","All selected"]);
 	lookups['fungicides'].push(["-9999","No data"]);
-	lookups['fungicides'].push(["","All selected"]);
+	lookups['fungicides'].push(["*","All selected"]);
 	// change 0 value into 2, otherwise causes problems with default value combobox
 	lookups['yield_tendency5'][1][0]=2;
 	lookups['production_tendency5'][1][0]=2;
@@ -165,6 +163,13 @@ Ext.onReady(function() {
 							Ext.QuickTips.register({ target: Ext.getCmp('regionfilter').getEl(), text: 'Search for systems within regions' }); 
 							Ext.QuickTips.register({ target: Ext.getCmp('countryfilter').getEl(), text: 'Search for systems within countries' }); 
 							Ext.QuickTips.register({ target: Ext.getCmp('cultivarfilter').getEl(), text: 'Search for systems based on cultivar' }); 
+       						Ext.QuickTips.register({ target: Ext.getCmp('yieldtendency').getEl(), text: 'Search for systems based on tendency in yield in past 5 years' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('productiontendency').getEl(), text: 'Search for systems based on tendency in production area in past 5 years' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('primaryusemusa').getEl(), text: 'Search for systems based use of the crops' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('fungicides').getEl(), text: 'Search for systems based on use of fungicides' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('herbicides').getEl(), text: 'Search for systems based on use of herbicides' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('irrigation').getEl(), text: 'Search for systems based on user of irrigation' }); 
+     						
      						init ++;
                 			}
                 		}
@@ -214,7 +219,7 @@ Ext.onReady(function() {
                 	items:
                 	[
                 	{
-        			 title: "Simple search",
+        			 title: "Search options",
         			 xtype: 'panel',
         			 width:'100%',
         			 collapsible: false,
@@ -224,69 +229,94 @@ Ext.onReady(function() {
 						{
 							title: "Countries",
 							id: "countryfilter",
-							xtype: "combo"	,
-							typeAhead: true,
-							mode: 'local',
+							xtype: "checkboxcombo"	,
 							width: 196,
 							forceSelection: false,
-							triggerAction: 'all',
-							emptyText:'All countries',
-							selectOnFocus:true,
-							editable: false,
+							emptyText:'Countries',
+							allowBlank: true,
 							valueField: 'id',
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data: countryLookup ['countries']              		
-								})
-					
+								}),
+							listeners: {
+    							blur	: function() {
+    							
+    							var combo= Ext.getCmp("countryfilter");
+    							var countrylist= combo.getValue();
+    							var countries = countrylist.split(",");
+    							
+    							
+    							countries.forEach(function(item){
+    								if (item=="All countries" | item==""){
+    									Ext.getCmp("countryfilter").setValue("All countries");
+    								}
+    							});
+    							}
+  							}
 						},
 						{
 							title: "Regions",
 							id: "regionfilter",
-							xtype: "combo"	,
-							typeAhead: true,
-							mode: 'local',
+							xtype: "checkboxcombo"	,
 							width: 196,
 							forceSelection: false,
-							triggerAction: 'all',
-							emptyText:'All regions',
-							selectOnFocus:true,
-							editable: false,
+							emptyText:'Regions',
+							allowBlank: true,
 							valueField: 'id',
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data: countryLookup ['regions']              		
-								})
-					
-						},
+								}),
+							listeners: {
+							blur	: function() {
+							var combo= Ext.getCmp("regionfilter");
+							var regionlist= combo.getValue();
+							var regions = regionlist.split(",");
+							regions.forEach(function(item){
+								if (item=="All regions" | item==""){
+									Ext.getCmp("regionfilter").setValue("All regions");
+								}
+							});
+						}}},
 						{
 							title: "Cultivar Type",
 							id: "cultivarfilter",
-							xtype: "combo",
+							xtype: "checkboxcombo",
 							width: 196,
+							forceSelection: false,
+							emptyText:'Cultivars',
+							allowBlank: true,
+							valueField: 'id',
+							displayField: 'label' ,
 
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data : lookups['cultivar_type'],						
 							}),
-							typeAhead: true,
-							mode: 'local',
-							forceSelection: false,
-							triggerAction: 'all',
-							emptyText:'All cultivars',
-							selectOnFocus:true,
-							editable: false,
-							valueField: 'id',
-							displayField: 'label' 
+							listeners: {
+							blur	: function() {
+							
+							var combo= Ext.getCmp("cultivarfilter");
+							var cultlist= combo.getValue();
+							var cults = cultlist.split(",");
+							
+							
+							cults.forEach(function(item){
+								if (item=="All cultivars" | item==""){
+									Ext.getCmp("cultivarfilter").setValue("All cultivars");
+								}
+							});
+					
+						}}
 						}            	,
 						{
 							xtype: 'checkboxcombo',
 							id: "pestsfilter",
 							hiddenName: 'field_name',
-														width: 196,
-
+						    width: 196,
 							fieldLabel: 'Field Label',
 							store:new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
@@ -295,18 +325,23 @@ Ext.onReady(function() {
 							valueField: 'id',
 							displayField: 'label',
 							allowBlank: true,
-							emptyText: 'No pests and diseases'
-						}	
-						]
-        			},
-        			{
-        			 title: "More search options",
-        			 xtype: 'panel',
-        			 collapsible: false,
-        			 width: '100%',
-        			 layout: 'fit',
-        			 id: 'moresearch',
-        			 items: [
+							emptyText: 'Pests and diseases',
+							listeners: {
+							blur	: function() {
+							
+							var combo= Ext.getCmp("cultivarfilter");
+							var pestslist= combo.getValue();
+							var pests = pestslist.split(",");
+				
+							pests.forEach(function(item){
+								if (item=="No pests and diseases" | item==""){
+									Ext.getCmp("pestsfilter").setValue("No pests and diseases");
+								}
+							});
+						}}
+						}
+						
+        			,
 						 {
 							title: "Yield tendency (past 5 years)",
 							id: "yieldtendency",
@@ -316,7 +351,7 @@ Ext.onReady(function() {
 							mode: 'local',
 							forceSelection: false,
 							triggerAction: 'all',
-							emptyText:'All selected',
+							emptyText:'Yield tendency',
 							selectOnFocus:true,
 							editable: false,
 							valueField: 'id',
@@ -325,6 +360,17 @@ Ext.onReady(function() {
 								fields: ['id', 'label'],
 								data: lookups ['yield_tendency5']              		
 								}),
+							listeners: {
+							blur	: function() {
+							
+							var combo= Ext.getCmp("yieldtendency");
+							var value= combo.getValue();
+							if (value=="*"){
+							combo.reset();
+							}
+							}
+							}	
+							
 								
 				
 						},
@@ -336,7 +382,7 @@ Ext.onReady(function() {
 							mode: 'local',
 							forceSelection: false,
 							triggerAction: 'all',
-							emptyText:'All selected',
+							emptyText:'Production tendency',
 							selectOnFocus:true,
 							width: 196,
 							editable: false,
@@ -345,7 +391,17 @@ Ext.onReady(function() {
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data: lookups ['production_tendency5']              		
-								})
+								}),
+								listeners: {
+							blur	: function() {
+							
+							var combo= Ext.getCmp("productiontendency");
+							var value= combo.getValue();
+							if (value=="*"){
+							combo.reset();
+							}
+							}
+							}
 						},
 						{
 							title: "Primary use Musa",
@@ -355,7 +411,7 @@ Ext.onReady(function() {
 							mode: 'local',
 							forceSelection: false,
 							triggerAction: 'all',
-							emptyText:'All selected',
+							emptyText:'Primary use Musa',
 							selectOnFocus:true,
 							width: 196,
 							editable: false,
@@ -364,7 +420,17 @@ Ext.onReady(function() {
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data: lookups ['use']              		
-								})
+								}),
+							listeners: {
+							blur	: function() {
+							
+							var combo= Ext.getCmp("primaryusemusa");
+							var value= combo.getValue();
+							if (value=="*"){
+							combo.reset();
+							}
+							}
+							}
 						},
 						{
 							title: "Use of irrigation",
@@ -374,7 +440,7 @@ Ext.onReady(function() {
 							mode: 'local',
 							forceSelection: false,
 							triggerAction: 'all',
-							emptyText:'All selected',
+							emptyText:'Use of irrigation',
 							selectOnFocus:true,
 							width: 196,
 							editable: false,
@@ -383,7 +449,16 @@ Ext.onReady(function() {
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data: lookups ['irrigation']              		
-								})
+								}),
+							listeners: {
+							blur	: function() {
+							var combo= Ext.getCmp("irrigation");
+							var value= combo.getValue();
+							if (value=="*"){
+							combo.reset();
+							}
+							}
+							}
 						},
 						{
 							title: "Use of herbicides",
@@ -393,7 +468,7 @@ Ext.onReady(function() {
 							mode: 'local',
 							forceSelection: false,
 							triggerAction: 'all',
-							emptyText:'All selected',
+							emptyText:'Use of herbicides',
 							selectOnFocus:true,
 							width: 196,
 							editable: false,
@@ -402,7 +477,16 @@ Ext.onReady(function() {
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data: lookups ['herbicides']              		
-								})
+								}),
+							listeners: {
+							blur	: function() {
+							var combo= Ext.getCmp("herbicides");
+							var value= combo.getValue();
+							if (value=="*"){
+							combo.reset();
+							}
+							}
+							}
 						}
 						,
 						{
@@ -413,7 +497,7 @@ Ext.onReady(function() {
 							mode: 'local',
 							forceSelection: false,
 							triggerAction: 'all',
-							emptyText:'All selected',
+							emptyText:'Use of fungicides',
 							selectOnFocus:true,
 							width: 196,
 							editable: false,
@@ -422,47 +506,21 @@ Ext.onReady(function() {
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
 								data: lookups ['fungicides']              		
-								})
+								}),
+							listeners: {
+							blur	: function() {
+							var combo= Ext.getCmp("fungicides");
+							var value= combo.getValue();
+							if (value=="*"){
+							combo.reset();
+							}
+							}
+							}
 						},
-						/*{
-						xtype: 'label', 
-                        text: 'Musa density (mats/ha)',
-                        style: 'font-size:12px; font-weight:bold; padding:5px;'
-						},
-						{
-							title: "Density",
-							id: "densityfilter",
-							xtype: "multislider",
-							minvalue: 0,
-							maxvalue: 100,
-							increment: 10,
-							values: [20,80],
-							fieldlabel: "Musa density (mats/ha)",
-							plugins : tip
-							
-						},
-						{
-						xtype: 'label', 
-                        text: 'Total production (ton/ha)',
-                        style: 'font-size:12px; font-weight:bold; padding:5px;'
-						},
-						{
-							title: "Production",
-							id: "productionfilter",
-							xtype: "multislider",
-							minvalue: 0,
-							maxvalue: 100,
-							increment: 10,
-							values: [1000, 5000],
-							plugins : tip
-							
-						},*/
-						
-						
 							{
 							xtype: 'label', 
 							text: 'Production minimum (ton)',
-							style: 'font-size:12px; font-weight:bold; padding:5px;',
+							style: 'font-size:11px; padding:5px;',
 							width: 196
 							},
 							{
@@ -474,10 +532,7 @@ Ext.onReady(function() {
 
 								regex:/^([0-9])/,
 								validator: function(v) {
-
 									return true;
-							
-								
 								}
 							},
 							{
@@ -485,7 +540,7 @@ Ext.onReady(function() {
 							width: 196,
 
 							text: 'Production maximum (ton)',
-							style: 'font-size:12px; font-weight:bold; padding:5px;'
+							style: 'font-size:11px; padding:5px;'
 							},
 							{
 								title: "Production Maximum",
@@ -498,22 +553,14 @@ Ext.onReady(function() {
 								validator: function(v) {
 															
 									return true;
-								
 								}
 							}
-						
-						
-						
-						
-
-        			 
-        			 ]
-        			       			
-        			
+        			 ]     			
         			},
         			{
         			 title: "Apply filters",
         			 xtype: 'panel',
+        			 id: 'applyfilters',
         			 collapsible: false,
         			 width: '100%',
         			 id: 'applyfilters',
@@ -524,6 +571,7 @@ Ext.onReady(function() {
 							text: 'Apply',
 							handler: function()
 								{
+									production_systemfilter="";
 									var comboCult = Ext.getCmp("cultivarfilter");
 									processCultivarFilter(comboCult);
 									var comboCountry = Ext.getCmp("countryfilter");
@@ -546,12 +594,10 @@ Ext.onReady(function() {
 									processFungicidesFilter (comboFungicides);
 									var fieldmin = Ext.getCmp("productionmin");
 									var fieldmax = Ext.getCmp("productionmax");
-									console.log(fieldmin);
 									processTotalProd(fieldmin, fieldmax);
-//									console.log(production_systemfilter);
 									applyFilter();
 									// clear filter
-									production_systemfilter="";
+									
 		            			}
        						},{
             			text: 'Reset',
@@ -562,17 +608,22 @@ Ext.onReady(function() {
 							Ext.getCmp("pestsfilter").reset();
 							Ext.getCmp("countryfilter").reset();
 							Ext.getCmp("cultivarfilter").reset();
+							Ext.getCmp("fungicides").reset();
+							Ext.getCmp("herbicides").reset();
+							Ext.getCmp("irrigation").reset();
+							Ext.getCmp("primaryusemusa").reset();
+							Ext.getCmp("productiontendency").reset();
+							Ext.getCmp("yieldtendency").reset();
 							applyFilter();
 						}
-        				}]
-        			}]}
-        			
-        			
-        			
-        			
-        			
-        			
-        			    			
+        				}
+        				]
+        			}]},
+        			{
+        			 xtype: 'panel',
+        			 collapsible: false,
+        			 width: '100%',
+        			 id: 'legendpanel2'}   			
                 	]
                 	
                 
@@ -630,8 +681,11 @@ Ext.onReady(function() {
         },{
             ptype: "gxp_legend",
 			outputTarget: "legendpanel"
-			
-        },{	
+		},{
+            ptype: "gxp_legend",
+			outputTarget: "legendpanel2"
+		},
+		{	
            ptype: "gxp_measure", 	//add button to measure length and area
            toggleGroup: "layertools",
            controlOptions: {immediate: true},
@@ -1223,43 +1277,71 @@ function addHighlight(feature) {
 }
 
 // Functions for processing filters
-
 function processCultivarFilter(comboBox){
-	var cultVal = comboBox.getValue();								
-	if (cultVal!="" | cultVal != 0){
-		if (production_systemfilter !=""){
-			production_systemfilter += " and ";
-		}
-		production_systemfilter += "cultivar_type=" + cultVal.toString();
-										
-	}
-}
+	var cultval = comboBox.getValue();
+		if (cultval != "All cultivars" && cultval != ""){
+			var cults = cultval.split(",");
+			var filters="cultivar_type IN(";
+			var first = true;
+			cults.forEach(function(item){			
+				if (!first){
+					filters += ",";
+				}
+				first = false;
+				filters+= "'" + item + "'";
+			});
+			filters += ")"
+			if (production_systemfilter !=""){
+				production_systemfilter += " AND ";
+			}
+			production_systemfilter += filters;
+}}
 
 function processCountryFilter(comboBox){
-	var countryVal = comboBox.getValue();								
-	if (countryVal!="" | countryVal != 0){
-		if (production_systemfilter !=""){
-			production_systemfilter += " and ";
-		}
-		production_systemfilter += "country='" + countryVal + "'";
-										
-	}
+		var countryVal = comboBox.getValue();
+		if (countryVal != "All countries" && countryVal != ""){
+			var countries = countryVal.split(",");
+			var filters="country IN(";
+			var first = true;
+			countries.forEach(function(item){			
+				if (!first){
+					filters += ",";
+				}
+				first = false;
+				filters+= "'" + item + "'";
+			});
+			filters += ")"
+			if (production_systemfilter !=""){
+				production_systemfilter += " AND ";
+			}
+			production_systemfilter += filters;
+		}												
 }
 
 function processRegionFilter(comboBox){
-	var regionVal = comboBox.getValue();								
-	if (regionVal!="" | regionVal != 0){
-		if (production_systemfilter !=""){
-			production_systemfilter += " and ";
-		}		
-		production_systemfilter += "region='" + regionVal + "'";
-				
-	}
+	var regionval = comboBox.getValue();
+		if (regionval != "All regions" && regionval != ""){
+			var regions = regionval.split(",");
+			var filters="region IN(";
+			var first = true;
+			regions.forEach(function(item){			
+				if (!first){
+					filters += ",";
+				}
+				first = false;
+				filters+= "'" + item + "'";
+			});
+			filters += ")"
+			if (production_systemfilter !=""){
+				production_systemfilter += " AND ";
+			}
+			production_systemfilter += filters;
+		}				
 }
 
 function processPestsFilter(comboBox){
 	var pestsVal = comboBox.getValue();	
-	if (pestsVal!="" | pestsVal != 0){
+	if (pestsVal!="" && pestsVal != "No pests and diseases"){
 	
 		var pestsArray = pestsVal.split(",");
 		var filter=""
@@ -1277,14 +1359,13 @@ function processPestsFilter(comboBox){
 			production_systemfilter += " AND ";
 		}			
 		production_systemfilter += filter;
-		console.log(production_systemfilter);
 	}
 }
 
 
 function processYieldFilter(comboBox){
 	var comboVal = comboBox.getValue();	
-	if (comboVal!="" | comboVal!=0){
+	if (comboVal!="" && comboVal!="*"){
 		if (comboVal==2){comboVal=0;}
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
@@ -1295,7 +1376,7 @@ function processYieldFilter(comboBox){
 
 function processProductFilter(comboBox){
 	var comboVal = comboBox.getValue();	
-	if (comboVal!="" | comboVal!=0){
+	if (comboVal!="" && comboVal!="*"){
 		if (comboVal==2){comboVal=0;}
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
@@ -1306,7 +1387,7 @@ function processProductFilter(comboBox){
 
 function processUseFilter(comboBox){
 	var comboVal = comboBox.getValue();	
-	if (comboVal!="" | comboVal!=0){
+	if (comboVal!="" && comboVal!="*"){
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
 		}		
@@ -1316,34 +1397,34 @@ function processUseFilter(comboBox){
 
 function processIrrigationFilter(comboBox){
 	var comboVal = comboBox.getValue();	
-	if (comboVal!="" | comboVal!=0){
+	if (comboVal!="" && comboVal!="*"){
 		if (comboVal!=-9999){comboVal --;}
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
 		}		
-		production_systemfilter += "use='" + comboVal + "'";
+		production_systemfilter += "irrigation='" + comboVal + "'";
 	}
 }
 
 function processHerbicidesFilter(comboBox){
 	var comboVal = comboBox.getValue();	
-	if (comboVal!="" | comboVal!=0){
+	if (comboVal!="" && comboVal!="*"){
 		if (comboVal!=-9999){comboVal --;}
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
 		}		
-		production_systemfilter += "use='" + comboVal + "'";
+		production_systemfilter += "herbicides='" + comboVal + "'";
 	}
 }
 
 function processFungicidesFilter(comboBox){
 	var comboVal = comboBox.getValue();	
-	if (comboVal!="" | comboVal!=0){
+	if (comboVal!="" && comboVal!="*"){
 		if (comboVal!=-9999){comboVal --;}
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
 		}		
-		production_systemfilter += "use='" + comboVal + "'";
+		production_systemfilter += "fungicides='" + comboVal + "'";
 	}
 }
 
@@ -1360,8 +1441,6 @@ function processTotalProd(textfieldMin, textfieldMax){
 			production_systemfilter += " and ";
 		}		
 	production_systemfilter += "total_prod > " + min + " AND total_prod < "+max;
-	
-	console.log(production_systemfilter);
 	}
 	
 	

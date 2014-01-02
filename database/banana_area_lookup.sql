@@ -192,3 +192,26 @@ ALTER TABLE ONLY banana_lookup
 -- PostgreSQL database dump complete
 --
 
+CREATE TABLE countries
+(
+  country character(100),
+  region character(100)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE countries
+  OWNER TO postgres;
+  
+  CREATE TABLE diseases
+(
+  nameneat character(100),
+  nameb character(100)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE countries
+  OWNER TO postgres;
+
+
