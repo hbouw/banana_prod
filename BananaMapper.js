@@ -1229,10 +1229,10 @@ function getEditor(type){
 function getLookup(type,id){
 	var store = new Ext.data.ArrayStore({fields: ["id", "label"],data : lookups[type] });
 	try {
-		if (store.find('id',id)==-1) return "-";
+		if (store.find('id',id)==-1) return "No data";
 		else return store.getAt(store.find('id',id)).get('label');
 	} catch (e) {
-		return "-";
+		return "No data";
 	}
 }
 
