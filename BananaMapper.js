@@ -3,7 +3,7 @@
 var app,combo,curArea;
 var login=false;
 var production_systemfilter="";
-var init = 0;
+
 
 //style for featureInfo highlight
 var featureInfoStyle = new OpenLayers.StyleMap({
@@ -149,31 +149,20 @@ Ext.onReady(function() {
             	region: "west",
              	id: "westcontainer",		
              	border: true,
-             	xtype: "tabpanel",
+             	xtype: "panel",
+             	layout: "accordion" ,
+             	layoutConfig: {
+					titleCollapse: false,
+        			animate: true,
+        			activeOnTop: false,
+			        multi: true
+					},
              	activeTab: 0,
                 collapsible: true,
                 collapseMode: "mini",
             	collapsed: false,
                 width: 200,
                 // Listener to add tooltips on filters. First created tooltips to the gxpviewer.app ready event (see line ~640), but this stopped working for some reason.
-                listeners: {
-                	'tabchange': function(tabPanel, tab){
-                			if (init<2){
-     						Ext.QuickTips.register({ target: Ext.getCmp('pestsfilter').getEl(), text: 'Search for systems with occurring diseases' }); 
-							Ext.QuickTips.register({ target: Ext.getCmp('regionfilter').getEl(), text: 'Search for systems within regions' }); 
-							Ext.QuickTips.register({ target: Ext.getCmp('countryfilter').getEl(), text: 'Search for systems within countries' }); 
-							Ext.QuickTips.register({ target: Ext.getCmp('cultivarfilter').getEl(), text: 'Search for systems based on cultivar' }); 
-       						Ext.QuickTips.register({ target: Ext.getCmp('yieldtendency').getEl(), text: 'Search for systems based on tendency in yield in past 5 years' }); 
-     						Ext.QuickTips.register({ target: Ext.getCmp('productiontendency').getEl(), text: 'Search for systems based on tendency in production area in past 5 years' }); 
-     						Ext.QuickTips.register({ target: Ext.getCmp('primaryusemusa').getEl(), text: 'Search for systems based use of the crops' }); 
-     						Ext.QuickTips.register({ target: Ext.getCmp('fungicides').getEl(), text: 'Search for systems based on use of fungicides' }); 
-     						Ext.QuickTips.register({ target: Ext.getCmp('herbicides').getEl(), text: 'Search for systems based on use of herbicides' }); 
-     						Ext.QuickTips.register({ target: Ext.getCmp('irrigation').getEl(), text: 'Search for systems based on user of irrigation' }); 
-     						
-     						init ++;
-                			}
-                		}
-                	},
                 items: [
                 	{
                 	title: "Layers",
@@ -206,12 +195,6 @@ Ext.onReady(function() {
                 	title: "Search",
                 	id: "searchpanel",
 					layout: "vbox",
-					/*layoutConfig: {
-					titleCollapse: false,
-        			animate: true,
-        			activeOnTop: true,
-			        multi: true
-					},*/
 					defaults: {
 					autoScroll:true
 					},
@@ -933,6 +916,19 @@ Ext.onReady(function() {
                     //add higlight layer
                     app.mapPanel.map.addLayer(new OpenLayers.Layer.Vector("highlightLayer", { styleMap: featureInfoStyle, displayInLayerSwitcher: false }));
 					//Ext.QuickTips.register({ target: Ext.getCmp('pestsfilter').getEl(), text: 'Choose the active layer for search and query' }); 
+					Ext.QuickTips.register({ target: Ext.getCmp('pestsfilter').getEl(), text: 'Search for systems with occurring diseases' }); 
+							Ext.QuickTips.register({ target: Ext.getCmp('regionfilter').getEl(), text: 'Search for systems within regions' }); 
+							Ext.QuickTips.register({ target: Ext.getCmp('countryfilter').getEl(), text: 'Search for systems within countries' }); 
+							Ext.QuickTips.register({ target: Ext.getCmp('cultivarfilter').getEl(), text: 'Search for systems based on cultivar' }); 
+       						Ext.QuickTips.register({ target: Ext.getCmp('yieldtendency').getEl(), text: 'Search for systems based on tendency in yield in past 5 years' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('productiontendency').getEl(), text: 'Search for systems based on tendency in production area in past 5 years' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('primaryusemusa').getEl(), text: 'Search for systems based use of the crops' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('fungicides').getEl(), text: 'Search for systems based on use of fungicides' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('herbicides').getEl(), text: 'Search for systems based on use of herbicides' }); 
+     						Ext.QuickTips.register({ target: Ext.getCmp('irrigation').getEl(), text: 'Search for systems based on user of irrigation' }); 
+					
+					
+					
 					}
 				}
     });
