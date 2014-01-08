@@ -155,7 +155,7 @@ Ext.onReady(function() {
 					titleCollapse: false,
         			animate: true,
         			activeOnTop: false,
-			        multi: true
+			        multi: true	        
 					},
              	activeTab: 0,
                 collapsible: true,
@@ -180,16 +180,18 @@ Ext.onReady(function() {
 							},
                 		border: false,
                 		flex: 1
-						},
-						{
+						}
+						]
+					},
+					{
+                		title: "Legend",
                 		id:"legendpanel",
                         defaults: {
-        	                autoScroll:true,
-                            },
-                        flex: 1,
-                        border:false
-						}]
-					}
+							autoScroll:true
+							},
+                		border: false,
+                		flex: 1
+						}
 					,
                 	{
                 	title: "Search",
@@ -205,6 +207,7 @@ Ext.onReady(function() {
         			 xtype: 'panel',
         			 width:'100%',
         			 collapsible: false,
+        			 border: false,
         			 id: 'search',
         			 items: [
                 	
@@ -311,7 +314,7 @@ Ext.onReady(function() {
 							listeners: {
 							blur	: function() {
 							
-							var combo= Ext.getCmp("cultivarfilter");
+							var combo= Ext.getCmp("pestsfilter");
 							var pestslist= combo.getValue();
 							var pests = pestslist.split(",");
 				
@@ -498,17 +501,24 @@ Ext.onReady(function() {
 							}
 							}
 							}
-						},
+						}, {
+        			 xtype: 'panel',
+        			 id: 'productionfilter',
+        			 border: false,
+        			 width: '100%',
+        			 items: [
 							{
 							xtype: 'label', 
 							text: 'Production minimum (ton)',
 							style: 'font-size:11px; padding:5px;',
+							border: false,
 							width: 196
 							},
 							{
 								title: "Production Minimum",
 								id: "productionmin",
 								xtype: "textfield",
+								border: false,
 								value: totalprodMin,
 								width: 196,
 
@@ -520,7 +530,7 @@ Ext.onReady(function() {
 							{
 							xtype: 'label', 
 							width: 196,
-
+							border: false,
 							text: 'Production maximum (ton)',
 							style: 'font-size:11px; padding:5px;'
 							},
@@ -529,20 +539,19 @@ Ext.onReady(function() {
 								id: "productionmax",
 								xtype: "textfield",
 								value: totalprodMax,
+								border: false,
 								width: 196,
-
 								regex:/^([0-9])/,
-								validator: function(v) {
-															
+								validator: function(v) {					
 									return true;
 								}
-							}
+							}]}
         			 ]     			
         			},
         			{
         			 xtype: 'panel',
         			 id: 'applyfilters',
-        			 collapsible: false,
+        			 border: false,
         			 width: '100%',
         			 id: 'applyfilters',
         			 items: [
@@ -599,12 +608,7 @@ Ext.onReady(function() {
 						}
         				}
         				]
-        			}]},
-        			{
-        			 xtype: 'panel',
-        			 collapsible: false,
-        			 width: '100%',
-        			 id: 'legendpanel2'}   			
+        			}]}		
                 	]
                 	
                 
@@ -662,9 +666,6 @@ Ext.onReady(function() {
         },{
             ptype: "gxp_legend",
 			outputTarget: "legendpanel"
-		},{
-            ptype: "gxp_legend",
-			outputTarget: "legendpanel2"
 		},
 		{	
            ptype: "gxp_measure", 	//add button to measure length and area
