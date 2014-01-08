@@ -165,31 +165,24 @@ Ext.onReady(function() {
                 // Listener to add tooltips on filters. First created tooltips to the gxpviewer.app ready event (see line ~640), but this stopped working for some reason.
                 items: [
                 	{
-                	title: "Layers",
-                	id:"layerlegend",
+                	title: "Map Layers",
+                	id:"treepanel",
                 	layout: "vbox",
 					defaults: {
-                                width: "100%",
-                                layout: "fit"
+                                autoScroll:true
                		},
-					items: [
-						{
-                		id: "treepanel",
-						defaults: {
-							autoScroll:true
-							},
-                		border: false,
+					border: false,
                 		flex: 1
-						},
+					},
 						{
+						title:"Legend",
                 		id:"legendpanel",
                         defaults: {
         	                autoScroll:true,
                             },
                         flex: 1,
                         border:false
-						}]
-					}
+						}
 					,
                 	{
                 	title: "Search",
@@ -755,7 +748,7 @@ Ext.onReady(function() {
             outputTarget: "footer"
          },{
        		ptype: "gxp_print",															
-            //customParams: {outputFilename: 'BananaMapper-Print'},
+            customParams: {outputFilename: 'BananaMapper-Print'},
             printService: gs_url + "/pdf/",	
             actionTarget: "map.tbar",
             notAllNotPrintableText: "Not All Layers Can Be Printed",
