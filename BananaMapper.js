@@ -195,7 +195,6 @@ Ext.onReady(function() {
                 	items:
                 	[
                 	{
-        			 title: "Search options",
         			 xtype: 'panel',
         			 width:'100%',
         			 collapsible: false,
@@ -534,7 +533,6 @@ Ext.onReady(function() {
         			 ]     			
         			},
         			{
-        			 title: "Apply filters",
         			 xtype: 'panel',
         			 id: 'applyfilters',
         			 collapsible: false,
