@@ -676,12 +676,12 @@ Ext.onReady(function() {
         },{  	
 		   ptype: "gxp_wmsgetfeatureinfo",	//add button to get info of feature pointed at
             actionTarget: "map.tbar",
-			//autoActivate: true,			//ToDo at startup this function needs to be on!
+            defaultAction: 4,
+			autoActivate: false,			//ToDo at startup this function needs to be on!
 			format: "grid",
             outputConfig: {
                 width: 350,
-                height: 150,
-
+                height: 150
             	},
             itemConfig: {
             		
@@ -925,9 +925,9 @@ Ext.onReady(function() {
      						Ext.QuickTips.register({ target: Ext.getCmp('fungicides').getEl(), text: 'Search for systems based on use of fungicides' }); 
      						Ext.QuickTips.register({ target: Ext.getCmp('herbicides').getEl(), text: 'Search for systems based on use of herbicides' }); 
      						Ext.QuickTips.register({ target: Ext.getCmp('irrigation').getEl(), text: 'Search for systems based on user of irrigation' }); 
-					
-					
-					
+					     	Ext.QuickTips.register({ target: Ext.getCmp('productionmin').getEl(), text: 'Enter lower limit for production in ton \'s' }); 
+					     	Ext.QuickTips.register({ target: Ext.getCmp('productionmax').getEl(), text: 'Enter upper limit for production in ton \'s' });	
+							Ext.getCmp('featureinfobutton')
 					}
 				}
     });
