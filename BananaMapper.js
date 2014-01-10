@@ -165,7 +165,7 @@ Ext.onReady(function() {
                 // Listener to add tooltips on filters. First created tooltips to the gxpviewer.app ready event (see line ~640), but this stopped working for some reason.
                 items: [
                 	{
-                	title: "Layers",
+                	title: "Map layers",
                 	id:"layerlegend",
                 	layout: "vbox",
 					defaults: {
@@ -176,6 +176,7 @@ Ext.onReady(function() {
 						{
                 		id: "treepanel",
 						defaults: {
+							//autoHeight:true,		//try to fit height to content
 							autoScroll:true
 							},
                 		border: false,
