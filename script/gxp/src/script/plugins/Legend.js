@@ -36,7 +36,7 @@ gxp.plugins.Legend = Ext.extend(gxp.plugins.Tool, {
      *  ``String``
      *  Text for legend menu item (i18n).
      */
-    menuText: "Legend",
+   
 
     /** api: config[tooltip]
      *  ``String``
@@ -59,7 +59,7 @@ gxp.plugins.Legend = Ext.extend(gxp.plugins.Tool, {
         if (!this.outputConfig) {
             this.outputConfig = {
                 width: 300,
-                height: 400
+                height: 300
             };
         }
         Ext.applyIf(this.outputConfig, {title: this.menuText});

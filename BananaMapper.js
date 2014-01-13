@@ -150,15 +150,7 @@ Ext.onReady(function() {
              	id: "westcontainer",		
              	border: true,
              	xtype: "panel",
-             	layout: "accordion" ,
-             	layoutConfig: {
-					titleCollapse: false,
-        			animate: true,
-        			activeOnTop: false,
-			        multi: true	        
-					},
-             	activeTab: 0,
-                collapsible: true,
+             	collapsible: true,
                 collapseMode: "mini",
             	collapsed: false,
                 width: 200,
@@ -167,7 +159,10 @@ Ext.onReady(function() {
                 	{
                 	title: "Layers",
                 	id:"layerlegend",
-                	layout: "vbox",
+                	xtype: "panel",	
+                	collapsible:true,
+                	 width: 200,
+                	collapseMode: 'mini',
 					defaults: {
                                 width: "100%",
                                 layout: "fit"
@@ -178,36 +173,49 @@ Ext.onReady(function() {
 						defaults: {
 							autoScroll:true
 							},
+						layout: 'fit',
+						height: 175,
                 		border: false,
-                		flex: 1
+                		
 						}
 						]
 					},
 					{
                 		title: "Legend",
                 		id:"legendpanel",
+                		collapsible:true,
+                		collapsed: true,
+                		xtype: 'panel',
+                		 width: 200,
+                		 height: 300, 
+                		 layout:'fit',
+                	    collapseMode: 'mini',
                         defaults: {
 							autoScroll:true
 							},
                 		border: false,
-                		flex: 1
+                		
 						}
 					,
                 	{
                 	title: "Search",
                 	id: "searchpanel",
-					layout: "vbox",
+					 width: 200,
 					defaults: {
 					autoScroll:true
 					},
                 	border: false,
+                	collapsible:true,
+                	collapsed: true,
+                	collapseMode: 'mini',
                 	items:
                 	[
                 	{
-        			 xtype: 'panel',
-        			 width:'100%',
-        			 collapsible: false,
-        			 border: false,
+        			 defaults: {
+							autoScroll:true
+							},
+                		border: false,
+        			 
         			 id: 'search',
         			 items: [
                 	
