@@ -173,37 +173,20 @@ Ext.onReady(function() {
 						defaults: {
 							autoScroll:true
 							},
-						layout: 'fit',
+						
 						height: 175,
                 		border: false,
                 		
 						}
 						]
-					},
-					{
-                		title: "Legend",
-                		id:"legendpanel",
-                		collapsible:true,
-                		collapsed: true,
-                		xtype: 'panel',
-                		 width: 200,
-                		 height: 300, 
-                		 layout:'fit',
-                	    collapseMode: 'mini',
-                        defaults: {
-							autoScroll:true
-							},
-                		border: false,
-                		
-						}
+					}
 					,
                 	{
                 	title: "Search",
                 	id: "searchpanel",
 					 width: 200,
-					defaults: {
-					autoScroll:true
-					},
+					 height: 360,
+					 autoScroll:true,
                 	border: false,
                 	collapsible:true,
                 	collapsed: true,
@@ -211,10 +194,7 @@ Ext.onReady(function() {
                 	items:
                 	[
                 	{
-        			 defaults: {
-							autoScroll:true
-							},
-                		border: false,
+        			 border: false,
         			 
         			 id: 'search',
         			 items: [
@@ -621,7 +601,25 @@ Ext.onReady(function() {
                 	
                 
 						
-						}]
+						}
+						,
+					{
+                		title: "Legend",
+                		id:"legendpanel",
+                		collapsible:true,
+                		collapsed: true,
+                		xtype: 'panel',
+                		 width: 200,
+                		 height: 300, 
+                		 
+                	    collapseMode: 'mini',
+                        defaults: {
+							autoScroll:true
+							},
+                		border: false,
+                		
+						}
+						]
                 },{
 //Insert a footer						
                 id: "footer",
