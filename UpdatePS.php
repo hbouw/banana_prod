@@ -57,7 +57,7 @@ if ($data->oth_fungal_im) $sql .= "oth_fungal_im = '".$data->oth_fungal_im."',";
 if ($data->bbtv) $sql .= "bbtv = '".$data->bbtv."',";
 if ($data->bsv) $sql .= "bsv = '".$data->bsv."',";
 if ($data->other_virus) $sql .= "other_virus = '".$data->other_virus."',";
-if ($data->other_virus_im) $sql .= "other_virus_im = '".$data->other_virus_im."',";
+if ($data->oth_virus_im) $sql .= "oth_virus_im = '".$data->oth_virus_im."',";
 if ($data->yield_tendency5) $sql .= "yield_tendency5 = '".$data->yield_tendency5."',";
 if ($data->production_tendency5) $sql .= "production_tendency5 = '".$data->production_tendency5."',";
 $sql .= "area_id = ". $data->area_id. " where ((association = '".$data->association."' and cultivar_type = '".$data->cultivar_type."') or (association = '0' and cultivar_type = '0')) and area_id = ".$data->area_id;
