@@ -16,16 +16,16 @@ var featureInfoStyle = new OpenLayers.StyleMap({
 });
 
 Ext.onReady(function() {
-	pestsLookups['pest_diseases'].push(["No pests and diseases","No pests and diseases"]);
-	lookups['cultivar_type'].push(["All cultivars","All cultivars"]);
-	countryLookup['regions'].push(["All regions",'All regions']);
-	countryLookup['countries'].push(["All countries",'All countries']);
-	lookups['yield_tendency5'].push(["-9999","No data"]);	
-	lookups['production_tendency5'].push(["-9999","No data"]);	
-	lookups['production_tendency5'].push(["*","All selected"]);	
-	lookups['yield_tendency5'].push(["*","All selected"]);	
-	lookups['use'].push(["-9999","No data"]);
-	lookups['use'].push(["*","All selected"]);
+	pestsLookups['pest_diseases'].unshift(["No pests and diseases","No pests and diseases"]);
+	lookups['cultivar_type'].unshift(["All cultivars","All cultivars"]);
+	countryLookup['regions'].unshift(["All regions",'All regions']);
+	countryLookup['countries'].unshift(["All countries",'All countries']);
+	lookups['yield_tendency5'].unshift(["-9999","No data"]);	
+	lookups['production_tendency5'].unshift(["-9999","No data"]);	
+	lookups['production_tendency5'].unshift(["*","All selected"]);	
+	lookups['yield_tendency5'].unshift(["*","All selected"]);	
+	lookups['use'].unshift(["-9999","No data"]);
+	lookups['use'].unshift(["*","All selected"]);
 	lookups['irrigation'].forEach(function(item){
 			item[0]++;
 	});
@@ -35,12 +35,12 @@ Ext.onReady(function() {
 	lookups['fungicides'].forEach(function(item){
 			item[0]++;
 	});
-	lookups['irrigation'].push(["-9999","No data"]);
-	lookups['irrigation'].push(["*","All selected"]);
-	lookups['herbicides'].push(["-9999","No data"]);
-	lookups['herbicides'].push(["*","All selected"]);
-	lookups['fungicides'].push(["-9999","No data"]);
-	lookups['fungicides'].push(["*","All selected"]);
+	lookups['irrigation'].unshift(["-9999","No data"]);
+	lookups['irrigation'].unshift(["*","All selected"]);
+	lookups['herbicides'].unshift(["-9999","No data"]);
+	lookups['herbicides'].unshift(["*","All selected"]);
+	lookups['fungicides'].unshift(["-9999","No data"]);
+	lookups['fungicides'].unshift(["*","All selected"]);
 	// change 0 value into 2, otherwise causes problems with default value combobox
 	lookups['yield_tendency5'][1][0]=2;
 	lookups['production_tendency5'][1][0]=2;
@@ -73,7 +73,7 @@ Ext.onReady(function() {
                { 	
                	region: "north",
                	id: "header",
-				bodyStyle:"background-color:#d7ec9B",
+				bodyStyle:"background-image:url('./bootstrap/img/hero_background.jpg');",
 				bodyCssClass:"x-plain",
              	height: 60,
 				border: true,
