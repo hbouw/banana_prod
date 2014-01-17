@@ -225,15 +225,15 @@ include('config.php');
 			 echo "<div id=\"header\">";		
 			 echo "<div id=\"headertitle\">CropMapper.org - <i>Banana - Editor</i></div>";	
 			
-			echo  "<a href=\"./index.html\ alt=\"Home\" id=\"home\"><div></div></a>";
+			echo  "<a href=\"./index.html\" ><div  id=\"home\" ></div></a>";
 			 echo "<p id=\"welcometext\">Welcome: <a href=\"./index.html\">". $_SESSION['username']."</a></p>"; 
 			 echo "</div>";
 			} else {
 			echo "<div id=\"header\">";	
 			echo "<div id=\"headertitle\">CropMapper.org - <i>Banana - Viewer</i></div>";			
-        	echo "<a href=\"./index.html\" alt=\"Home\" id=\"home\" ><div  ></div></a>";
+        	echo "<a href=\"./index.html\"  ><div id=\"home\"  ></div></a>";
         	echo "<p id=\"welcometext\"><a href=\"./index.html\">Not logged in</a></p>"; 
-        	echo "</div>";
+        	     	echo "</div>";
         	
         	}
         	?>
