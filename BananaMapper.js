@@ -1515,23 +1515,24 @@ function applyFilter() {
 
 var downloadWindowConfig = {
     	width:400,
-    	height: 200,
+    	height: 148,
+    	layout:"fit",
     	title: 'Download layer Production Systems',
-    	xtype: 'panel',
          id:'downloadWindow',
             ascending: false,
             border: false,
-            padding: 10,
 			items: [{
+				xtype:"panel",
+				items:[{
 				xtype:"form",
 				labelWidth:90,
 				bodyStyle:'padding:10px',
 				border:false,
-				frame:true,
+				frame:false,
 				items:[
 						{
 						xtype:'combo',
-						id:'downloadFormatCombo',
+						id:'downloadFormatCombo2',
 						fieldLabel:'Download as',
 						forceSelection: true,
 						triggerAction: 'all',
@@ -1547,7 +1548,7 @@ var downloadWindowConfig = {
 						})
 						},{
 						xtype:'combo',
-						id:'downloadBoundsCombo',
+						id:'downloadBoundsCombo2',
 						fieldLabel:'Area of interest',
 						typeAhead: true,
 						mode: 'local',
@@ -1568,8 +1569,8 @@ var downloadWindowConfig = {
 						handler: function (frm,a) 
 							{
 							//TODO: apply app-filter
-							var frmt=Ext.getCmp('downloadFormatCombo').getValue();
-							var vbox=Ext.getCmp('downloadBoundsCombo').getValue();
+							var frmt=Ext.getCmp('downloadFormatCombo2').getValue();
+							var vbox=Ext.getCmp('downloadBoundsCombo2').getValue();
 							if (vbox=="current"){
 							vbox = app.mapPanel.map.getExtent().transform("EPSG:3857","EPSG:4326").toString();
 							}
@@ -1603,11 +1604,9 @@ var downloadWindowConfig = {
 							var window = Ext.getCmp('downloadWindow');
 							window.destroy();
 							}
-						}]
+						}]}]
 				}],
-            hideMode: "offsets",
-           
-            defaults: { cls: 'gxp-legend-item', autoScroll: true }
+            
     };
 
 

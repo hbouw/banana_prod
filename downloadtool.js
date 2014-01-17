@@ -38,10 +38,11 @@ Ext.ux.DownloadTool = Ext.extend(gxp.plugins.Tool, {
         if (!this.outputConfig) {
             this.outputConfig = {
                 width: 400,
-                height: 200
+                height: 148,
+                layout: "fit"
             };
         }
-        Ext.applyIf(this.outputConfig, { title: this.menuText });
+        Ext.applyIf(this.outputConfig, { title: "Download layer Production Systems"});
     },
 
     /** api: method[addActions]
@@ -90,20 +91,12 @@ Ext.ux.DownloadTool = Ext.extend(gxp.plugins.Tool, {
         var ttl = this.target.selectedLayer.data.title;
 
         return Ext.ux.DownloadTool.superclass.addOutput.call(this, Ext.apply({
-            xtype: 'panel',
-            ascending: false,
-            border: false,
-            filter: function (record) {
-                if (record.data.title == ttl) return true;
-                return false;
-            },
-            padding: 10,
-			items: [{
+            
 				xtype:"form",
 				labelWidth:90,
 				bodyStyle:'padding:10px',
 				border:false,
-				frame:true,
+				frame:false,
 				items:[
 						{
 						xtype:'combo',
@@ -111,6 +104,11 @@ Ext.ux.DownloadTool = Ext.extend(gxp.plugins.Tool, {
 						fieldLabel:'Download as',
 						valueField: 'value',
 						mode: 'local',
+						forceSelection: true,
+						triggerAction: 'all',
+						selectOnFocus:true,
+						editable: false,
+						allowBlank: false,
 						displayField: 'label',
 						store: new Ext.data.ArrayStore({
 						fields: ['label','value'],
@@ -172,10 +170,8 @@ Ext.ux.DownloadTool = Ext.extend(gxp.plugins.Tool, {
 							Ext.get(Ext.query(".x-window")).hide(); //0 is page itself todo: get proper handle and close it
 							}
 						}]
-				}],
-            hideMode: "offsets",
-            layerStore: this.target.mapPanel.layers,
-            defaults: { cls: 'gxp-legend-item', autoScroll: true }
+			
+            
         }, config));
     }
 
