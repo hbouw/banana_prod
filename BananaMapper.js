@@ -1516,7 +1516,7 @@ function applyFilter() {
 var downloadWindowConfig = {
     	width:400,
     	height: 200,
-    	title: 'Download',
+    	title: 'Download layer Production Systems',
     	xtype: 'panel',
          id:'downloadWindow',
             ascending: false,
@@ -1577,7 +1577,9 @@ var downloadWindowConfig = {
 							if (frmt != ""){
 								if (frmt=='SHAPE-ZIP'||frmt=='CSV'){ //these are wfs-formats, others wms
     								if (production_systemfilter!=""){
-    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
+    								
+    								production_systemfilter+= " AND BBOX(the_geom,"+vbox+")";
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
     								} else{
     								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&maxFeatures=2500&outputFormat='+frmt;
     								}
