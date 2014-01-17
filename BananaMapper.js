@@ -195,8 +195,23 @@ Ext.onReady(function() {
                 		
 						}
 						]
-					}
-					,
+					},
+					{
+                		title: "Legend",
+                		id:"legendpanel",
+                		collapsible:true,
+                		collapsed: false,
+                		xtype: 'panel',
+                		 width: 200,
+                		 height: 250, 
+                		 
+                	    collapseMode: 'mini',
+                        defaults: {
+							autoScroll:true
+							},
+                		border: false,
+                		
+					},
                 	{
                 	title: "Search",
                 	id: "searchpanel",
@@ -646,23 +661,7 @@ Ext.onReady(function() {
                 
 						
 						}
-						,
-					{
-                		title: "Legend",
-                		id:"legendpanel",
-                		collapsible:true,
-                		collapsed: true,
-                		xtype: 'panel',
-                		 width: 200,
-                		 height: 300, 
-                		 
-                	    collapseMode: 'mini',
-                        defaults: {
-							autoScroll:true
-							},
-                		border: false,
-                		
-						}
+											
 						]
                 },{
 //Insert a footer						
