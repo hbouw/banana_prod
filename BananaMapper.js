@@ -555,14 +555,17 @@ Ext.onReady(function() {
         			{
         			 xtype: 'panel',
         			 id: 'applyfilters',
+        			 
         			 border: false,
         			 width: '100%',
         			 id: 'applyfilters',
         			 items: [
         			{
                 		buttons: [{
+                		tooltip: 'Apply filters to layer "Production Systems"',
                 			id: 'applyfilter',
 							text: 'Apply',
+							width:55,
 							handler: function()
 								{
 									production_systemfilter="";
@@ -595,6 +598,8 @@ Ext.onReady(function() {
 		            			}
        						},{
             			text: 'Reset',
+            			tooltip: 'Reset all filters',
+            			width: 55,
 						handler: function()
 						{
 							production_systemfilter="";
@@ -611,98 +616,29 @@ Ext.onReady(function() {
 							applyFilter();
 						}
         				}
-        				/*,{
+        				,{
         				id: 'downloadselection',
 						text: 'Download',
+						tooltip: 'Download data from layer "Production Systems" for offline use',
+						width: 55,
 						handler: function(){
-							var config = 
+							/*var config = 
 							{
-            xtype: 'panel',
-            ascending: false,
-            border: false,
-            padding: 10,
-			items: [{
-				xtype:"form",
-				labelWidth:90,
-				bodyStyle:'padding:10px',
-				border:false,
-				frame:true,
-				items:[
-						{
-						xtype:'combo',
-						id:'downloadFormatCombo',
-						fieldLabel:'Download as',
-						valueField: 'value',
-						mode: 'local',
-						displayField: 'label',
-						store: new Ext.data.ArrayStore({
-						fields: ['label','value'],
-						data: [['Esri Shapefile','SHAPE-ZIP'],['Pdf','application/pdf'],['GeoTiff','image/geotiff'],['KML','KML'],['CSV','CSV']]
-						})
-						},{
-						xtype:'combo',
-						id:'downloadBoundsCombo',
-						fieldLabel:'Area of interest',
-						typeAhead: true,
-						mode: 'local',
-						forceSelection: true,
-						triggerAction: 'all',
-						selectOnFocus:true,
-						editable: false,
-						allowBlank: false,
-						valueField: 'value',
-						displayField: 'label',
-						store: new Ext.data.ArrayStore({
-						fields: ['label','value'],
-						data: [['Current viewport','current'],['World',"-180,-90,180,90"],['Africa',"-10,-20,70,20"],['Azia',"70,-20,150,20"],['Central America',"-80,-20,-30,20"]]
-						})
-						}],
-				buttons:[{
-						text:'Save',
-						handler: function (frm,a) 
-							{
-							//TODO: apply app-filter
-							var frmt=Ext.getCmp('downloadFormatCombo').getValue();
-							var vbox=Ext.getCmp('downloadBoundsCombo').getValue();
-							if (vbox=="current"){
-							vbox = app.mapPanel.map.getExtent().transform("EPSG:3857","EPSG:4326").toString();
-							}
-							if (vbox == "") vbox="-180,-90,180,90";
-							if (frmt != ""){
-								if (frmt=='SHAPE-ZIP'||frmt=='CSV'){ //these are wfs-formats, others wms
-    								if (production_systemfilter!=""){
-    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
-    								} else{
-    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&maxFeatures=2500&outputFormat='+frmt;
-    								}
-									} else {
-									//should recalculate image size to bounds size
-									var bnds = vbox.split(',');
-									var hght = Math.floor(2000/(bnds[2]-bnds[0])*(bnds[3]-bnds[1]));
-									if (production_systemfilter!=""){
-									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+"&cql_filter="+production_systemfilter+'&srs=EPSG:4326&format='+frmt;
-									} else{
-									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+'&srs=EPSG:4326&format='+frmt;
-									}
-								}
-								Ext.get(Ext.query(".x-window")).hide();
-							} else alert('Select a download format first');
-							}
-						},{
-						text:'Cancel',
-						handler: function(form,action){
-							Ext.get(Ext.query(".x-window")).hide(); //0 is page itself todo: get proper handle and close it
-							}
-						}]
-				}],
-            hideMode: "offsets",
-            layerStore: app.mapPanel.layers,
-            defaults: { cls: 'gxp-legend-item', autoScroll: true }
+            
         };
    							var win = Ext.ComponentMgr.create(config);
-    						win.show();
+    						win.show();*/
+    						var window = Ext.getCmp('downloadWindow');
+    						
+    						if (window == null)
+    						{
+    						   						
+    						 var win = new Ext.Window(downloadWindowConfig);
+						    win.show();
+    }
+    						
 						}
-        				}*/
+        				}
         				]
         			}]}		
                 	]
@@ -1574,11 +1510,104 @@ function applyFilter() {
     		layer.mergeNewParams({ cql_filter: null });
     	}
     }
-
-
-
-
 }
+
+
+var downloadWindowConfig = {
+    	width:400,
+    	height: 200,
+    	title: 'Download',
+    	xtype: 'panel',
+         id:'downloadWindow',
+            ascending: false,
+            border: false,
+            padding: 10,
+			items: [{
+				xtype:"form",
+				labelWidth:90,
+				bodyStyle:'padding:10px',
+				border:false,
+				frame:true,
+				items:[
+						{
+						xtype:'combo',
+						id:'downloadFormatCombo',
+						fieldLabel:'Download as',
+						forceSelection: true,
+						triggerAction: 'all',
+						selectOnFocus:true,
+						editable: false,
+						allowBlank: false,
+						valueField: 'value',
+						mode: 'local',
+						displayField: 'label',
+						store: new Ext.data.ArrayStore({
+						fields: ['label','value'],
+						data: [['Esri Shapefile','SHAPE-ZIP'],['Pdf','application/pdf'],['GeoTiff','image/geotiff'],['KML','KML'],['CSV','CSV']]
+						})
+						},{
+						xtype:'combo',
+						id:'downloadBoundsCombo',
+						fieldLabel:'Area of interest',
+						typeAhead: true,
+						mode: 'local',
+						forceSelection: true,
+						triggerAction: 'all',
+						selectOnFocus:true,
+						editable: false,
+						allowBlank: false,
+						valueField: 'value',
+						displayField: 'label',
+						store: new Ext.data.ArrayStore({
+						fields: ['label','value'],
+						data: [['Current viewport','current'],['World',"-180,-90,180,90"],['Africa',"-10,-20,70,20"],['Azia',"70,-20,150,20"],['Central America',"-80,-20,-30,20"]]
+						})
+						}],
+				buttons:[{
+						text:'Save',
+						handler: function (frm,a) 
+							{
+							//TODO: apply app-filter
+							var frmt=Ext.getCmp('downloadFormatCombo').getValue();
+							var vbox=Ext.getCmp('downloadBoundsCombo').getValue();
+							if (vbox=="current"){
+							vbox = app.mapPanel.map.getExtent().transform("EPSG:3857","EPSG:4326").toString();
+							}
+							if (vbox == "") vbox="-180,-90,180,90";
+							if (frmt != ""){
+								if (frmt=='SHAPE-ZIP'||frmt=='CSV'){ //these are wfs-formats, others wms
+    								if (production_systemfilter!=""){
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
+    								} else{
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&maxFeatures=2500&outputFormat='+frmt;
+    								}
+									} else {
+									//should recalculate image size to bounds size
+									var bnds = vbox.split(',');
+									var hght = Math.floor(2000/(bnds[2]-bnds[0])*(bnds[3]-bnds[1]));
+									if (production_systemfilter!=""){
+									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+"&cql_filter="+production_systemfilter+'&srs=EPSG:4326&format='+frmt;
+									} else{
+									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+'&srs=EPSG:4326&format='+frmt;
+									}
+								}
+								var window = Ext.getCmp('downloadWindow');
+							window.destroy();
+							} else alert('Select a download format first');
+							}
+						},{
+						text:'Cancel',
+						handler: function(form,action){
+							var window = Ext.getCmp('downloadWindow');
+							window.destroy();
+							}
+						}]
+				}],
+            hideMode: "offsets",
+           
+            defaults: { cls: 'gxp-legend-item', autoScroll: true }
+    };
+
 
 
 
