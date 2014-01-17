@@ -873,7 +873,7 @@ Ext.onReady(function() {
             maxExtent: [-20037508, -20037508, 20037508, 20037508], 
             //	center: [-9264594.758211, 1123072.3184791 ], zoom: 8,           //Costa Rica
             //	center: [3000000, 2000000 ], zoom: 3,							//world
-			  center: [-800000, -800000 ], zoom: 3,                             	
+			  center: [-200000, -800000 ], zoom: 1,                             	
 			//  center: [13000000, 2700000 ], zoom: 8,                           //Taiwan	
            	//  center: [13000000, 2000000 ], zoom: 3,                          	//Indonesia
 		   
