@@ -1,12 +1,54 @@
+#header{
+display: inline;
+}
+
+#headertitle {
+float:left;
+margin-top:10px;
+margin-left:10px;
+font-size:xx-large;
+}
+
+
+ #welcometext {
+  color:black;
+ font-weight:normal;
+ margin-top:35px;
+ font-size:small;
+ float:right;
+ color:black;
+ font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+ 
+
+ }
+ 
+ #welcometext a:hover {
+ color:white;
+ }
+ 
+ #welcometext a {
+ color:black;
+ }
+ 
+ 
+ 
+ #home{
+ background-image: url('../images/home.png');width:76px;height:76px;float:right;margin-top:-5px;
+ }
+ #home:hover{
+ background-image: url('../images/home_light.png');
+ height:76px;width:76px;
+ }
+ 
+ 
+
 body, td, th, li, div {
 	font-family:verdana,arial;
 }
 
-
-#Head_html{
+#headertitle{
  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-    font-weight: 300;
-
+ font-weight: 300;
 }
 
 /* styles for geoserver featureinfo */
@@ -38,9 +80,9 @@ table.featureInfo caption{
 }
 
 /*makes the header green*/
-*#ext-gen27 {
-	background-color:#D7ED9B;
-}
+/*#ext-gen37 {
+	background-color:#27ae60;
+}*/
 
 /*table in information tab */
 table.gridtable {

@@ -15,40 +15,55 @@ var featureInfoStyle = new OpenLayers.StyleMap({
 	strokeColor: "#9999ff"
 });
 
-Ext.onReady(function() {
-	pestsLookups['pest_diseases'].push(["No pests and diseases","No pests and diseases"]);
-	lookups['cultivar_type'].push(["All cultivars","All cultivars"]);
-	countryLookup['regions'].push(["All regions",'All regions']);
-	countryLookup['countries'].push(["All countries",'All countries']);
-	lookups['yield_tendency5'].push(["-9999","No data"]);	
-	lookups['production_tendency5'].push(["-9999","No data"]);	
-	lookups['production_tendency5'].push(["*","All selected"]);	
-	lookups['yield_tendency5'].push(["*","All selected"]);	
-	lookups['use'].push(["-9999","No data"]);
-	lookups['use'].push(["*","All selected"]);
-	lookups['irrigation'].forEach(function(item){
-			item[0]++;
-	});
-	lookups['herbicides'].forEach(function(item){
-			item[0]++;
-	});
-	lookups['fungicides'].forEach(function(item){
-			item[0]++;
-	});
-	lookups['irrigation'].push(["-9999","No data"]);
-	lookups['irrigation'].push(["*","All selected"]);
-	lookups['herbicides'].push(["-9999","No data"]);
-	lookups['herbicides'].push(["*","All selected"]);
-	lookups['fungicides'].push(["-9999","No data"]);
-	lookups['fungicides'].push(["*","All selected"]);
-	// change 0 value into 2, otherwise causes problems with default value combobox
-	lookups['yield_tendency5'][1][0]=2;
-	lookups['production_tendency5'][1][0]=2;
-	
 
+function cloneObject(obj) {
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
+    }
+ 
+    var temp = obj.constructor(); // give temp the original obj's constructor
+    for (var key in obj) {
+        temp[key] = cloneObject(obj[key]);
+    }
+ 
+    return temp;
+}
+
+
+
+Ext.onReady(function() {
+	lookupsCombo = cloneObject(lookups);
+	pestsLookups['pest_diseases'].unshift(["No pests and diseases","No pests and diseases"]);
+	lookupsCombo['cultivar_type'].unshift(["All cultivars","All cultivars"]);
+	countryLookup['regions'].unshift(["All regions",'All regions']);
+	countryLookup['countries'].unshift(["All countries",'All countries']);
+	lookupsCombo['yield_tendency5'].unshift(["-9999","No data"]);	
+	lookupsCombo['production_tendency5'].unshift(["-9999","No data"]);	
+	lookupsCombo['production_tendency5'].unshift(["*","All selected"]);	
+	lookupsCombo['yield_tendency5'].unshift(["*","All selected"]);	
+	lookupsCombo['use'].unshift(["-9999","No data"]);
+	lookupsCombo['use'].unshift(["*","All selected"]);
+	lookupsCombo['irrigation'].forEach(function(item){
+			item[0]++;
+	});
+	lookupsCombo['herbicides'].forEach(function(item){
+			item[0]++;
+	});
+	lookupsCombo['fungicides'].forEach(function(item){
+			item[0]++;
+	});
+	lookupsCombo['irrigation'].unshift(["-9999","No data"]);
+	lookupsCombo['irrigation'].unshift(["*","All selected"]);
+	lookupsCombo['herbicides'].unshift(["-9999","No data"]);
+	lookupsCombo['herbicides'].unshift(["*","All selected"]);
+	lookupsCombo['fungicides'].unshift(["-9999","No data"]);
+	lookupsCombo['fungicides'].unshift(["*","All selected"]);
+	// change 0 value into 2, otherwise causes problems with default value combobox
+	lookupsCombo['yield_tendency5'][3][0]=3;
+	lookupsCombo['production_tendency5'][3][0]=3;
+	lookupsCombo['herbicides'][2][0]=4;
 
 	Ext.QuickTips.init();
-	
 	var tip = new Ext.slider.Tip({
         getText: function(thumb){
             return String.format('<b>Value={0}</b>', thumb.value);
@@ -73,7 +88,7 @@ Ext.onReady(function() {
                { 	
                	region: "north",
                	id: "header",
-				bodyStyle:"background-color:#d7ec9B",
+				bodyStyle:"background-image:url('./bootstrap/img/hero_background.jpg');",
 				bodyCssClass:"x-plain",
              	height: 60,
 				border: true,
@@ -180,8 +195,23 @@ Ext.onReady(function() {
                 		
 						}
 						]
-					}
-					,
+					},
+					{
+                		title: "Legend",
+                		id:"legendpanel",
+                		collapsible:true,
+                		collapsed: false,
+                		xtype: 'panel',
+                		 width: 200,
+                		 height: 250, 
+                		 
+                	    collapseMode: 'mini',
+                        defaults: {
+							autoScroll:true
+							},
+                		border: false,
+                		
+					},
                 	{
                 	title: "Search",
                 	id: "searchpanel",
@@ -268,7 +298,7 @@ Ext.onReady(function() {
 
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
-								data : lookups['cultivar_type'],						
+								data : lookupsCombo['cultivar_type'],						
 							}),
 							listeners: {
 							blur	: function() {
@@ -332,7 +362,7 @@ Ext.onReady(function() {
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
-								data: lookups ['yield_tendency5']              		
+								data: lookupsCombo ['yield_tendency5']              		
 								}),
 							listeners: {
 							blur	: function() {
@@ -364,7 +394,7 @@ Ext.onReady(function() {
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
-								data: lookups ['production_tendency5']              		
+								data: lookupsCombo ['production_tendency5']              		
 								}),
 								listeners: {
 							blur	: function() {
@@ -393,7 +423,7 @@ Ext.onReady(function() {
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
-								data: lookups ['use']              		
+								data: lookupsCombo ['use']              		
 								}),
 							listeners: {
 							blur	: function() {
@@ -422,7 +452,7 @@ Ext.onReady(function() {
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
-								data: lookups ['irrigation']              		
+								data: lookupsCombo ['irrigation']              		
 								}),
 							listeners: {
 							blur	: function() {
@@ -450,7 +480,7 @@ Ext.onReady(function() {
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
-								data: lookups ['herbicides']              		
+								data: lookupsCombo ['herbicides']              		
 								}),
 							listeners: {
 							blur	: function() {
@@ -479,7 +509,7 @@ Ext.onReady(function() {
 							displayField: 'label' ,
 							store: new Ext.data.ArrayStore({
 								fields: ['id', 'label'],
-								data: lookups ['fungicides']              		
+								data: lookupsCombo ['fungicides']              		
 								}),
 							listeners: {
 							blur	: function() {
@@ -540,14 +570,17 @@ Ext.onReady(function() {
         			{
         			 xtype: 'panel',
         			 id: 'applyfilters',
+        			 
         			 border: false,
         			 width: '100%',
         			 id: 'applyfilters',
         			 items: [
         			{
                 		buttons: [{
+                		tooltip: 'Apply filters to layer "Production Systems"',
                 			id: 'applyfilter',
 							text: 'Apply',
+							width:55,
 							handler: function()
 								{
 									production_systemfilter="";
@@ -580,6 +613,8 @@ Ext.onReady(function() {
 		            			}
        						},{
             			text: 'Reset',
+            			tooltip: 'Reset all filters',
+            			width: 55,
 						handler: function()
 						{
 							production_systemfilter="";
@@ -596,6 +631,29 @@ Ext.onReady(function() {
 							applyFilter();
 						}
         				}
+        				,{
+        				id: 'downloadselection',
+						text: 'Download',
+						tooltip: 'Download data from layer "Production Systems" for offline use',
+						width: 55,
+						handler: function(){
+							/*var config = 
+							{
+            
+        };
+   							var win = Ext.ComponentMgr.create(config);
+    						win.show();*/
+    						var window = Ext.getCmp('downloadWindow');
+    						
+    						if (window == null)
+    						{
+    						   						
+    						 var win = new Ext.Window(downloadWindowConfig);
+						    win.show();
+    }
+    						
+						}
+        				}
         				]
         			}]}		
                 	]
@@ -603,23 +661,7 @@ Ext.onReady(function() {
                 
 						
 						}
-						,
-					{
-                		title: "Legend",
-                		id:"legendpanel",
-                		collapsible:true,
-                		collapsed: true,
-                		xtype: 'panel',
-                		 width: 200,
-                		 height: 300, 
-                		 
-                	    collapseMode: 'mini',
-                        defaults: {
-							autoScroll:true
-							},
-                		border: false,
-                		
-						}
+											
 						]
                 },{
 //Insert a footer						
@@ -771,7 +813,7 @@ Ext.onReady(function() {
             sourceMap: OpenLayers.Map
 		},{
             ptype: "downloadtool",
-            actionTarget: "tree.contextMenu"
+            actionTarget: ["tree.contextMenu"]
         },
         
         /*{
@@ -1379,7 +1421,7 @@ function processYieldFilter(comboBox){
 function processProductFilter(comboBox){
 	var comboVal = comboBox.getValue();	
 	if (comboVal!="" && comboVal!="*"){
-		if (comboVal==2){comboVal=0;}
+		if (comboVal==3){comboVal=0;}
 		if (production_systemfilter !=""){
 			production_systemfilter += " and ";
 		}		
@@ -1467,11 +1509,106 @@ function applyFilter() {
     		layer.mergeNewParams({ cql_filter: null });
     	}
     }
-
-
-
-
 }
+
+
+var downloadWindowConfig = {
+    	width:400,
+    	height: 200,
+    	title: 'Download layer Production Systems',
+    	xtype: 'panel',
+         id:'downloadWindow',
+            ascending: false,
+            border: false,
+            padding: 10,
+			items: [{
+				xtype:"form",
+				labelWidth:90,
+				bodyStyle:'padding:10px',
+				border:false,
+				frame:true,
+				items:[
+						{
+						xtype:'combo',
+						id:'downloadFormatCombo',
+						fieldLabel:'Download as',
+						forceSelection: true,
+						triggerAction: 'all',
+						selectOnFocus:true,
+						editable: false,
+						allowBlank: false,
+						valueField: 'value',
+						mode: 'local',
+						displayField: 'label',
+						store: new Ext.data.ArrayStore({
+						fields: ['label','value'],
+						data: [['Esri Shapefile','SHAPE-ZIP'],['Pdf','application/pdf'],['GeoTiff','image/geotiff'],['KML','KML'],['CSV','CSV']]
+						})
+						},{
+						xtype:'combo',
+						id:'downloadBoundsCombo',
+						fieldLabel:'Area of interest',
+						typeAhead: true,
+						mode: 'local',
+						forceSelection: true,
+						triggerAction: 'all',
+						selectOnFocus:true,
+						editable: false,
+						allowBlank: false,
+						valueField: 'value',
+						displayField: 'label',
+						store: new Ext.data.ArrayStore({
+						fields: ['label','value'],
+						data: [['Current viewport','current'],['World',"-180,-90,180,90"],['Africa',"-10,-20,70,20"],['Azia',"70,-20,150,20"],['Central America',"-80,-20,-30,20"]]
+						})
+						}],
+				buttons:[{
+						text:'Save',
+						handler: function (frm,a) 
+							{
+							//TODO: apply app-filter
+							var frmt=Ext.getCmp('downloadFormatCombo').getValue();
+							var vbox=Ext.getCmp('downloadBoundsCombo').getValue();
+							if (vbox=="current"){
+							vbox = app.mapPanel.map.getExtent().transform("EPSG:3857","EPSG:4326").toString();
+							}
+							if (vbox == "") vbox="-180,-90,180,90";
+							if (frmt != ""){
+								if (frmt=='SHAPE-ZIP'||frmt=='CSV'){ //these are wfs-formats, others wms
+    								if (production_systemfilter!=""){
+    								
+    								production_systemfilter+= " AND BBOX(the_geom,"+vbox+")";
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+"&cql_filter="+production_systemfilter+'&maxFeatures=2500&outputFormat='+frmt;
+    								} else{
+    								location.href = gs_url + '/ows?service=WFS&version=1.0.0&request=GetFeature&typeName='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&maxFeatures=2500&outputFormat='+frmt;
+    								}
+									} else {
+									//should recalculate image size to bounds size
+									var bnds = vbox.split(',');
+									var hght = Math.floor(2000/(bnds[2]-bnds[0])*(bnds[3]-bnds[1]));
+									if (production_systemfilter!=""){
+									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+"&cql_filter="+production_systemfilter+'&srs=EPSG:4326&format='+frmt;
+									} else{
+									location.href = gs_url + '/ows?service=WMS&version=1.1.0&request=GetMap&layers='+gs_workspace+':'+DOWNLOAD_LAYER+'&bbox='+vbox+'&width=2000&height='+hght+'&srs=EPSG:4326&format='+frmt;
+									}
+								}
+								var window = Ext.getCmp('downloadWindow');
+							window.destroy();
+							} else alert('Select a download format first');
+							}
+						},{
+						text:'Cancel',
+						handler: function(form,action){
+							var window = Ext.getCmp('downloadWindow');
+							window.destroy();
+							}
+						}]
+				}],
+            hideMode: "offsets",
+           
+            defaults: { cls: 'gxp-legend-item', autoScroll: true }
+    };
+
 
 
 

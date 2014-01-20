@@ -189,7 +189,7 @@ include('config.php');
 		</script>
 		
         <!--Banana Mapper -->        
-        <link rel="stylesheet" type="text/css" href="mapper.css"/>
+        <link rel="stylesheet" type="text/css" href="css/mapper.css"/>
         <script type="text/javascript" src="BananaMapper.js"></script>
 		<script type="text/javascript" src="script/gxp/externals/ux/RowExpander.js"></script>
 		<script type="text/javascript" src="script/gxp/externals/ux/PrintPreview/PrintPreview.js"></script>
@@ -222,11 +222,18 @@ include('config.php');
 			
 			
 			<?php if ($_SESSION['user']){
-			 echo "<H1 style=\"text-shadow:2px 2px 2px #fff;float:left;margin-top:10px;margin-left:10px;font-size:xx-large;\">CropMapper.org - <i>Banana - Editor</i></H1>";			
-			 echo "<p style=\"float:right;font-size:small;margin:10px;font-weight:bold;color:black\">Welcome: <a href=\"./index.html\" alt=\"Log in with a different account\">". $_SESSION['username']."</a></p>"; 
+			 echo "<div id=\"header\">";		
+			 echo "<div id=\"headertitle\">CropMapper.org - <i>Banana - Editor</i></div>";	
+			
+			echo  "<a href=\"./index.html\" ><div  id=\"home\" ></div></a>";
+			 echo "<p id=\"welcometext\">Welcome: <a href=\"./index.html\">". $_SESSION['username']."</a></p>"; 
+			 echo "</div>";
 			} else {
-			echo "<H1 style=\"text-shadow:2px 2px 2px #fff;float:left;margin-top:10px;margin-left:10px;font-size:xx-large;\">CropMapper.org - <i>Banana - Viewer</i></H1>";			
-        	echo "<a href=\"./index.html\" alt=\"Log in\"style=\"float:right;font-size:small;margin:10px;font-weight:bold;color:black\">Not logged in</a>"; 
+			echo "<div id=\"header\">";	
+			echo "<div id=\"headertitle\">CropMapper.org - <i>Banana - Viewer</i></div>";			
+        	echo "<a href=\"./index.html\"  ><div id=\"home\"  ></div></a>";
+        	echo "<p id=\"welcometext\"><a href=\"./index.html\">Not logged in</a></p>"; 
+        	     	echo "</div>";
         	
         	}
         	?>

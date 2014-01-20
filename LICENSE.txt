@@ -1,0 +1,10 @@
+This project used the following open source components:
+
+
+
+WindowsIcons
+
+URL: https://github.com/Templarian/WindowsIcons
+License:  https://github.com/Templarian/WindowsIcons/blob/master/WindowsPhone/license.txt
+
+
