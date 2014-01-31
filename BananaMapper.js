@@ -895,7 +895,7 @@ Ext.onReady(function() {
                 type: "OpenLayers.Layer",
                 args: ["Blank"],
                 visibility: false
-			},{*/
+			},{
 			    source: "bioversity",
                 name: gs_workspace+":country_boundaries", //from Geoserver
                 title: "Country Boundaries",
@@ -905,7 +905,7 @@ Ext.onReady(function() {
                 queryable: false,
 				opacity: 0.5,
 				visibility: false
-			},{	
+			},{*/
 			//add production areas (editable features)
                 source: "bioversity",
                	name: gs_workspace+":banana_areas", //from PostGIS database new variables
@@ -913,7 +913,7 @@ Ext.onReady(function() {
                 projection: "EPSG:4326",
 				tiled:false,
                 queryable: false,
-				opacity: 0.6,
+				opacity: 0.7,
 				visibility: true,
 				select:true
             },{   
@@ -924,7 +924,7 @@ Ext.onReady(function() {
                 projection: "EPSG:4326",
 				tiled:false,
                 queryable: false,
-				//opacity: 0.5,
+				opacity: 0.5,
 				visibility: true
             },{
 			//add production areas variables to view (for lookup and export functionality)
