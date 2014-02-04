@@ -195,8 +195,23 @@ Ext.onReady(function() {
                 		
 						}
 						]
-					}
-					,
+					},
+					{
+                		title: "Legend",
+                		id:"legendpanel",
+                		collapsible:true,
+                		collapsed: false,
+                		xtype: 'panel',
+                		 width: 200,
+                		 height: 250, 
+                		 
+                	    collapseMode: 'mini',
+                        defaults: {
+							autoScroll:true
+							},
+                		border: false,
+                		
+					},
                 	{
                 	title: "Search",
                 	id: "searchpanel",
@@ -646,23 +661,7 @@ Ext.onReady(function() {
                 
 						
 						}
-						,
-					{
-                		title: "Legend",
-                		id:"legendpanel",
-                		collapsible:true,
-                		collapsed: true,
-                		xtype: 'panel',
-                		 width: 200,
-                		 height: 300, 
-                		 
-                	    collapseMode: 'mini',
-                        defaults: {
-							autoScroll:true
-							},
-                		border: false,
-                		
-						}
+											
 						]
                 },{
 //Insert a footer						
@@ -874,7 +873,7 @@ Ext.onReady(function() {
             maxExtent: [-20037508, -20037508, 20037508, 20037508], 
             //	center: [-9264594.758211, 1123072.3184791 ], zoom: 8,           //Costa Rica
             //	center: [3000000, 2000000 ], zoom: 3,							//world
-			  center: [-800000, -800000 ], zoom: 3,                             	
+			  center: [-200000, -800000 ], zoom: 1,                             	
 			//  center: [13000000, 2700000 ], zoom: 8,                           //Taiwan	
            	//  center: [13000000, 2000000 ], zoom: 3,                          	//Indonesia
 		   
@@ -896,7 +895,7 @@ Ext.onReady(function() {
                 type: "OpenLayers.Layer",
                 args: ["Blank"],
                 visibility: false
-			},{*/
+			},{
 			    source: "bioversity",
                 name: gs_workspace+":country_boundaries", //from Geoserver
                 title: "Country Boundaries",
@@ -906,7 +905,7 @@ Ext.onReady(function() {
                 queryable: false,
 				opacity: 0.5,
 				visibility: false
-			},{	
+			},{*/
 			//add production areas (editable features)
                 source: "bioversity",
                	name: gs_workspace+":banana_areas", //from PostGIS database new variables
@@ -914,7 +913,7 @@ Ext.onReady(function() {
                 projection: "EPSG:4326",
 				tiled:false,
                 queryable: false,
-				opacity: 0.6,
+				opacity: 0.7,
 				visibility: true,
 				select:true
             },{   
@@ -925,7 +924,7 @@ Ext.onReady(function() {
                 projection: "EPSG:4326",
 				tiled:false,
                 queryable: false,
-				//opacity: 0.5,
+				opacity: 0.5,
 				visibility: true
             },{
 			//add production areas variables to view (for lookup and export functionality)
